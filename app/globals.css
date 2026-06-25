@@ -1,0 +1,735 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: rgb(255, 207, 1);
+  --secondary-color: #fff6de;
+  --text-primary-color: rgb(15, 23, 28);
+  --text-secondary-color: rgb(15 23 28 / 40%);
+  --dropdown-bg: #363d42;
+}
+
+.home-wrapper {
+  background-image: url("/bg/bg_vanta.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.card-wrapper {
+  background-image: linear-gradient(1turn, #e82a7a, #360354);
+  background-image: -ms-linear-gradient(90deg, #e82a7a 0, #360354 50%);
+}
+
+/* Start Button Css */
+.cbc-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  background-image: linear-gradient(80deg, #f16a38, #8d2601);
+  box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.35);
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  -ms-border-radius: 0.25rem;
+  -o-border-radius: 0.25rem;
+}
+/* End Button Css */
+
+/*Start Mihir Css */
+
+.secondary-shadow {
+  box-shadow: 0 4px 24px #bcbec0;
+}
+.primary-shadow {
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+}
+.dropdown-bg {
+  background-color: var(--dropdown-bg);
+}
+.mt-0 {
+  margin-top: 0 !important;
+}
+.top-nav-item:hover {
+  color: var(--primary-color);
+}
+.primary-border {
+  border: 1px solid var(--primary-color);
+}
+.primary-color {
+  color: var(--primary-color);
+}
+.primary-bg {
+  background-color: var(--primary-color);
+}
+.secondary-bg {
+  background-color: var(--secondary-color);
+}
+.text-secondary {
+  color: var(--text-secondary-color);
+}
+.text-primary {
+  color: var(--text-primary-color);
+}
+
+/* Custom Side nav Item */
+.side-nav li a {
+  padding: 15px 10px !important;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-primary-color);
+}
+.side-nav li a svg {
+  display: inherit;
+}
+.side-nav li a.active {
+  background-color: white;
+}
+.side-nav li a:hover {
+  background-color: white;
+}
+.side-nav li a.active svg {
+  color: var(--primary-color);
+}
+.tab:is(input:checked) {
+  border-color: black !important;
+  border-bottom-width: 3px !important;
+}
+.setting-tabs input:hover {
+  border-bottom: 3px solid black !important;
+}
+.analyst-tab .tab:is(input:checked) {
+  border-color: var(--primary-color) !important;
+}
+.invest-tabs .tab:is(input:checked) {
+  color: black;
+}
+.tabs-bordered > .tab {
+  border-bottom-width: 3px !important;
+  border-color: transparent;
+}
+.tab {
+  height: unset !important;
+  padding-bottom: 10px;
+}
+.custom-tooltip {
+  background-color: white !important;
+  color: black !important;
+  padding: 10px !important;
+  width: 180px !important;
+  text-align: center;
+  font-size: 11px !important;
+  line-height: initial !important;
+  box-shadow: 0 2px 6px 0 rgba(168, 166, 166, 0.1) !important;
+}
+.account-suit .custom-tooltip {
+  font-size: 16px !important;
+  width: 300px !important;
+  text-align: left !important;
+  color: rgba(0, 0, 0, 0.83) !important;
+  font-weight: 400 !important;
+  margin-top: 5px !important;
+}
+.account-suit .custom-tooltip::after {
+  content: none !important;
+}
+
+.custom-tooltip::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 0;
+  margin-left: 1em;
+  left: 50%;
+  right: 0;
+  box-sizing: border-box;
+  border: 7px solid black;
+  border-color: transparent transparent white white;
+  transform-origin: 0 0;
+  transform: rotate(135deg);
+  box-shadow: -3px 3px 3px -2px rgba(168, 166, 166, 0.1);
+}
+
+.verification-card:hover {
+  box-shadow: 0 4px 24px #bcbec0;
+}
+.partner-card {
+  box-shadow: 0 0px 3px #bcbec0;
+}
+.partner-card:hover {
+  box-shadow: 0 4px 24px #bcbec0;
+}
+/* Custom Scroller Styles */
+body .analyst ul::-webkit-scrollbar {
+  width: 5px;
+}
+
+body .analyst ul::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background: #fafafa;
+}
+
+body .analyst ul::-webkit-scrollbar-thumb {
+  background-color: #e6e6e6;
+}
+
+.banner-area {
+  background-image: url("/assets/images/HeroBG.jpg");
+}
+.cta-button {
+  background-image: url("/assets//images/CTABG.jpg");
+}
+.partner-banner {
+  background-image: url("/assets//images/partner-bg.webp");
+}
+.program-banner {
+  background-image: url("/assets//images/partnedetailbg.jpg");
+}
+/* Responsive Code Here */
+@media screen and (min-width: 576px) {
+  .package_wrapper .swiper-button-next {
+    display: none;
+  }
+  .package_wrapper .swiper-button-prev {
+    display: none;
+  }
+}
+@media screen and (max-width: 576px) {
+  .package_wrapper .swiper-button-next,
+  .package_wrapper .swiper-button-prev {
+    display: unset;
+    position: relative;
+    top: 20px;
+  }
+  .package_wrapper .swiper-button-next {
+    left: 50px;
+  }
+  .package_wrapper .swiper {
+    overflow-x: hidden;
+    padding-bottom: 20px;
+  }
+}
+
+/*End Mihir Css */
+
+/*Start Registration Banner */
+.banner-bg {
+  background-image: url(/assets/live-banner.webp);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Add other styles as needed */
+}
+
+.privacy-banner-bg {
+  background-image: url(/assets/policy.webp);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Add other styles as needed */
+}
+
+.legal-banner-bg {
+  background-image: url(/assets/legal-documents-banner.webp);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Add other styles as needed */
+}
+
+.contact-us-banner-bg {
+  background-image: url(/assets/contact-us-banner.webp);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Add other styles as needed */
+}
+.why-icm-banner-bg {
+  background-image: url(/assets/why-banner.webp);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Add other styles as needed */
+}
+
+/*End Registration Banner */
+
+/*Star Tree View CSS */
+.tree {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* .node {
+	background-image: url('/user.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 200px;
+} */
+
+/* .node:not(.node--root) .node_element::before {
+	content: '';
+	width: 1px;
+	height: 20px;
+	background-color: rgb(1, 179, 1);
+	display: block;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: -20px;
+	margin: auto;
+}
+
+.left-node::before {
+	content: '';
+	width: 100%;
+	height: 1px;
+	background-color: rgb(1, 179, 1);
+	display: block;
+	position: absolute;
+	left: 50%;
+	right: 0;
+	top: -21px;
+	margin: auto;
+}
+.right-node::before {
+	content: '';
+	width: 100%;
+	height: 1px;
+	background-color: rgb(1, 179, 1);
+	display: block;
+	position: absolute;
+	left: -96%;
+	right: 0;
+	top: -21px;
+	margin: auto;
+}
+
+.node_element {
+	height: 40px;
+	background-color: rgb(1, 179, 1);
+	border-radius: 16px;
+	color: white;
+	min-width: 60px;
+	padding: 4px 8px;
+	font-size: 12px;
+	line-height: 32px;
+	text-align: center;
+}
+
+.node_bottom-line {
+	height: 20px;
+	width: 1px;
+	background-color: rgb(1, 179, 1);
+}
+
+.node_children_top_line {
+	height: 1px;
+	width: 118px;
+	background-color: rgb(1, 179, 1);
+}
+
+.node_children {
+	display: flex;
+	justify-content: space-between;
+	width: fit-content;
+	padding: 20px;
+	border-top: 1px solid rgb(1, 179, 1);
+	background-color: red;
+} */
+
+.bg_vanta:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(29, 38, 59, 0.6) 0%,
+    rgba(29, 38, 59, 0.8)
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero__btn {
+  position: relative;
+  width: calc(50% - 10px);
+  max-width: 200px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: transparent;
+  border-radius: 20px;
+  border: 2px solid #aa72ce;
+}
+
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 20% 30%, #8a44ff22, transparent 60%),
+    radial-gradient(circle at 80% 70%, #1f193d22, transparent 60%),
+    radial-gradient(circle at 50% 50%, #0b0e2c33, transparent 60%);
+  animation: auroraMove 20s ease-in-out infinite alternate;
+  filter: blur(80px);
+}
+
+@keyframes auroraMove {
+  0% {
+    background-position:
+      20% 30%,
+      80% 70%,
+      50% 50%;
+  }
+  100% {
+    background-position:
+      60% 20%,
+      30% 90%,
+      40% 60%;
+  }
+}
+
+/* ────────── Adnexa Mobile App Theme ────────── */
+.adnexa-app-bg {
+  background:
+    radial-gradient(
+      circle at 20% 0%,
+      rgba(99, 102, 241, 0.28),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(34, 211, 238, 0.16),
+      transparent 30%
+    ),
+    linear-gradient(180deg, #020412 0%, #05071c 45%, #030413 100%);
+  color: #fff;
+}
+
+/* ────────── Adnexa Gradient Text ────────── */
+.adnexa-gradient-text {
+  background: linear-gradient(90deg, #38bdf8 0%, #22d3ee 48%, #34d399 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ────────── Adnexa Glass Card ────────── */
+.adnexa-glass-card {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.075),
+    rgba(255, 255, 255, 0.025)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 45px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(18px);
+}
+
+/* ────────── Adnexa Icon Button ────────── */
+.adnexa-icon-button {
+  display: inline-flex;
+  height: 48px;
+  width: 48px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.055);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 16px 35px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(16px);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+.adnexa-icon-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(34, 211, 238, 0.35);
+  background: rgba(34, 211, 238, 0.08);
+}
+
+/* ────────── Adnexa App Icon Box ────────── */
+.adnexa-icon-box {
+  border-radius: 18px;
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  background: linear-gradient(
+    145deg,
+    rgba(15, 23, 42, 0.95),
+    rgba(67, 56, 202, 0.32)
+  );
+  box-shadow:
+    0 0 28px rgba(124, 58, 237, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ────────── Adnexa Input Field ────────── */
+.adnexa-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+.adnexa-input-wrap:focus-within {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.adnexa-input-icon {
+  margin-left: 16px;
+  display: inline-flex;
+  height: 40px;
+  width: 40px;
+  flex: 0 0 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(99, 102, 241, 0.14);
+}
+.adnexa-input {
+  min-width: 0;
+  width: 100%;
+  border: 0 !important;
+  background: transparent !important;
+  padding: 0 18px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.adnexa-input:focus,
+.adnexa-input:focus-visible,
+.adnexa-input:active {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.adnexa-input::placeholder {
+  color: rgba(148, 163, 184, 0.72);
+}
+.adnexa-input:-webkit-autofill,
+.adnexa-input:-webkit-autofill:hover,
+.adnexa-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* ────────── Adnexa Phone Input Override ────────── */
+.adnexa-phone-field {
+  min-height: 64px;
+  padding: 8px 12px;
+}
+.adnexa-phone-field .react-tel-input {
+  font-family: inherit;
+}
+.adnexa-phone-field .form-control,
+.adnexa-phone-field .form-control:focus,
+.adnexa-phone-field .form-control:active {
+  height: 48px !important;
+  width: 100% !important;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  padding-left: 74px !important;
+}
+.adnexa-phone-field .form-control::placeholder {
+  color: rgba(148, 163, 184, 0.72) !important;
+}
+.adnexa-phone-field .flag-dropdown,
+.adnexa-phone-field .flag-dropdown.open,
+.adnexa-phone-field .flag-dropdown:hover,
+.adnexa-phone-field .flag-dropdown:focus,
+.adnexa-phone-field .flag-dropdown:active {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.adnexa-phone-field .selected-flag,
+.adnexa-phone-field .selected-flag:hover,
+.adnexa-phone-field .selected-flag:focus,
+.adnexa-phone-field .flag-dropdown.open .selected-flag {
+  height: 48px !important;
+  width: 58px !important;
+  border-radius: 16px !important;
+  background: rgba(99, 102, 241, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: none !important;
+}
+.adnexa-phone-field .country-list {
+  width: min(360px, calc(100vw - 70px)) !important;
+  max-height: 250px !important;
+  margin-top: 12px !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(34, 211, 238, 0.18) !important;
+  background: #090d28 !important;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55) !important;
+  padding: 8px !important;
+  color: #e5edff !important;
+}
+.adnexa-phone-field .country-list .country {
+  min-height: 42px !important;
+  border-radius: 12px !important;
+  padding: 9px 10px 9px 46px !important;
+  color: #e5edff !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+.adnexa-phone-field .country-list .country:hover,
+.adnexa-phone-field .country-list .country.highlight {
+  background: linear-gradient(
+    90deg,
+    rgba(34, 211, 238, 0.18),
+    rgba(124, 58, 237, 0.22)
+  ) !important;
+  color: #fff !important;
+}
+.adnexa-phone-field .country-list .country .dial-code {
+  color: rgba(203, 213, 225, 0.78) !important;
+}
+.adnexa-phone-field .country-list .country:hover .dial-code,
+.adnexa-phone-field .country-list .country.highlight .dial-code {
+  color: #cffafe !important;
+}
+.adnexa-phone-field .country-list::-webkit-scrollbar {
+  width: 6px;
+}
+.adnexa-phone-field .country-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+}
+.adnexa-phone-field .country-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(34, 211, 238, 0.45);
+}
+
+/* ────────── Adnexa Primary Button ────────── */
+.adnexa-primary-button {
+  display: flex;
+  min-height: 64px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-radius: 22px;
+  background: linear-gradient(90deg, #6d28d9 0%, #2563eb 45%, #14b8a6 100%);
+  padding: 0 16px 0 28px;
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  box-shadow:
+    0 18px 40px rgba(37, 99, 235, 0.28),
+    0 0 35px rgba(20, 184, 166, 0.12);
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+.adnexa-primary-button:hover {
+  transform: translateY(-1px);
+}
+.adnexa-primary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+/* ────────── Adnexa Scrollbar ────────── */
+.adnexa-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.adnexa-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.adnexa-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.45);
+  border-radius: 999px;
+}
+
+/* ────────── Mobile App Safe Rendering ────────── */
+html,
+body {
+  background: #020412;
+}
+
+/* ────────── Adnexa Legacy Page Dark Override ────────── */
+.adnexa-kyc-page .bg-white,
+.adnexa-kyc-page [class*="bg-white"],
+.adnexa-legacy-dark .bg-white,
+.adnexa-legacy-dark [class*="bg-white"] {
+  background: rgba(255, 255, 255, 0.045) !important;
+  color: #e5edff !important;
+}
+.adnexa-kyc-page .text-gray-700,
+.adnexa-kyc-page .text-gray-600,
+.adnexa-kyc-page .text-gray-500,
+.adnexa-kyc-page .text-slate-800,
+.adnexa-legacy-dark .text-gray-700,
+.adnexa-legacy-dark .text-gray-600,
+.adnexa-legacy-dark .text-gray-500,
+.adnexa-legacy-dark .text-slate-800 {
+  color: #e5edff !important;
+}
+.adnexa-kyc-page input,
+.adnexa-kyc-page select,
+.adnexa-kyc-page textarea,
+.adnexa-legacy-dark input,
+.adnexa-legacy-dark select,
+.adnexa-legacy-dark textarea {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.055) !important;
+  color: #fff !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.adnexa-kyc-page input:focus,
+.adnexa-kyc-page select:focus,
+.adnexa-kyc-page textarea:focus,
+.adnexa-legacy-dark input:focus,
+.adnexa-legacy-dark select:focus,
+.adnexa-legacy-dark textarea:focus {
+  border-color: rgba(34, 211, 238, 0.32) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.adnexa-kyc-page button,
+.adnexa-legacy-dark button {
+  box-shadow: none !important;
+}
