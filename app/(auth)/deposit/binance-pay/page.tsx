@@ -68,29 +68,29 @@ const BinancePayment = () => {
       />
 
       {/* ────────── Binance Hero Card ────────── */}
-      <section className="relative overflow-hidden rounded-[32px] border border-amber-400/20 bg-gradient-to-br from-amber-500/18 via-indigo-950/90 to-cyan-950/35 p-5 shadow-[0_0_55px_rgba(245,158,11,.12)]">
+      <section className="relative overflow-hidden rounded-2xl border border-amber-400/20 bg-gradient-to-br from-amber-500/18 via-indigo-950/90 to-cyan-950/35 p-4 shadow-[0_0_55px_rgba(245,158,11,.12)]">
         <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-amber-400/20 blur-2xl" />
         <div className="relative z-10 flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.2em] text-amber-300/90">
               Secure Payment
             </p>
-            <h2 className="mt-2 text-4xl font-black tracking-tight">
+            <h2 className="mt-2 text-xl font-black tracking-tight">
               Deposit USDT
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <p className="mt-2 text-[0.6rem] leading-6 text-slate-400">
               Send only USDT on Tron TRC20 network and submit your transaction
               ID.
             </p>
           </div>
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] border border-amber-400/25 bg-amber-400/12 text-amber-300 shadow-[0_0_35px_rgba(251,191,36,.18)]">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl border border-amber-400/25 bg-amber-400/12 text-amber-300 shadow-[0_0_35px_rgba(251,191,36,.18)]">
             <SiBinance className="text-4xl" />
           </div>
         </div>
       </section>
 
       {/* ────────── QR Payment Card ────────── */}
-      <section className="adnexa-glass-card relative overflow-hidden rounded-[32px] p-5">
+      <section className="adnexa-glass-card relative overflow-hidden rounded-2xl p-4">
         <div className="pointer-events-none absolute -left-12 top-10 h-40 w-40 rounded-full bg-cyan-400/10 blur-2xl" />
         <div className="relative z-10 space-y-5">
           <div className="flex items-center justify-between gap-3">
@@ -105,13 +105,13 @@ const BinancePayment = () => {
             </div>
           </div>
 
-          <div className="mx-auto w-fit rounded-[30px] border border-white/10 bg-white/[.04] p-4 shadow-[0_0_40px_rgba(34,211,238,.12)]">
+          <div className="mx-auto w-fit rounded-2xl border border-white/10 bg-white/[.04] p-4 shadow-[0_0_40px_rgba(34,211,238,.12)]">
             <Image
               src="/binance_qr.png"
               width={220}
               height={220}
               alt="Binance QR"
-              className="rounded-[22px]"
+              className="rounded-sm"
             />
           </div>
         </div>
@@ -123,21 +123,21 @@ const BinancePayment = () => {
           subtitle="Deposit Details"
           title="Copy Payment Information"
         />
-        <div className="adnexa-glass-card rounded-[28px] p-4">
+        <div className="adnexa-glass-card rounded-2xl p-4">
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-[22px] border border-white/10 bg-white/[.04] p-4">
+            <div className="rounded-2xl border border-white/10 bg-white/[.04] p-4">
               <SiTether className="text-2xl text-emerald-300" />
               <p className="mt-3 text-xs font-bold text-slate-400">Currency</p>
               <p className="text-lg font-black">USDT</p>
             </div>
-            <div className="rounded-[22px] border border-white/10 bg-white/[.04] p-4">
+            <div className="rounded-2xl border border-white/10 bg-white/[.04] p-4">
               <HiShieldCheck className="text-2xl text-cyan-300" />
               <p className="mt-3 text-xs font-bold text-slate-400">Network</p>
               <p className="text-lg font-black">TRC20</p>
             </div>
           </div>
 
-          <div className="mt-4 rounded-[22px] border border-white/10 bg-white/[.04] p-4">
+          <div className="mt-4 rounded-2xl border border-white/10 bg-white/[.04] p-4">
             <div className="mb-2 flex items-center justify-between gap-3">
               <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">
                 TRC20 Address
@@ -150,7 +150,7 @@ const BinancePayment = () => {
                 <HiClipboardDocument /> Copy
               </button>
             </div>
-            <p className="break-all text-sm font-bold leading-6 text-slate-200">
+            <p className="break-all text-xs font-bold leading-6 text-slate-200">
               {depositAddress}
             </p>
           </div>
@@ -160,7 +160,7 @@ const BinancePayment = () => {
       {/* ────────── Transaction ID Form ────────── */}
       <section className="space-y-4">
         <SectionTitle subtitle="Final Step" title="Submit Transaction ID" />
-        <div className="adnexa-glass-card rounded-[28px] p-4">
+        <div className="adnexa-glass-card rounded-2xl p-4">
           <label className="mb-3 block text-sm font-black text-slate-200">
             Transaction ID / TXID
           </label>

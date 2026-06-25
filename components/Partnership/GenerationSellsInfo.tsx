@@ -6,7 +6,7 @@ import { HiChartBar, HiUsers } from "react-icons/hi2";
 
 const GenerationSellsInfo = ({ total_sells, level_01_sells }: any) => {
   return (
-    <div className="mt-5 grid grid-cols-2 gap-3">
+    <div className="mt-5 grid grid-cols-1 gap-3">
       {/* ────────── Generation Sales Summary ────────── */}
       <NeonStatCard
         label="1st Gen Sales"

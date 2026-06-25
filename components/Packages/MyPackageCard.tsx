@@ -23,11 +23,11 @@ const MyPackageCard: React.FC<MyPackageCardProps> = ({ pac }) => {
     : "bg-emerald-400/12 text-emerald-300";
 
   return (
-    <article className="rounded-[30px] border border-violet-400/20 bg-[#090d2b]/75 p-4 shadow-2xl shadow-violet-950/20 backdrop-blur-xl">
+    <article className="rounded-2xl border border-violet-400/20 bg-[#090d2b]/75 p-4 shadow-2xl shadow-violet-950/20 backdrop-blur-xl">
       {/* ────────── Package Header ────────── */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex min-w-0 items-center gap-4">
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] border border-violet-400/30 bg-gradient-to-br from-violet-500/25 to-cyan-500/10 text-violet-300 shadow-[0_0_35px_rgba(139,92,246,.18)]">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl border border-violet-400/30 bg-gradient-to-br from-violet-500/25 to-cyan-500/10 text-violet-300 shadow-[0_0_35px_rgba(139,92,246,.18)]">
             <HiTrophy className="text-4xl drop-shadow-[0_0_16px_currentColor]" />
           </div>
           <div className="min-w-0">
@@ -47,7 +47,7 @@ const MyPackageCard: React.FC<MyPackageCardProps> = ({ pac }) => {
       </div>
 
       {/* ────────── Price & Return Summary ────────── */}
-      <div className="mt-5 rounded-[24px] border border-white/10 bg-white/[.04] p-4">
+      <div className="mt-5 rounded-2xl border border-white/10 bg-white/[.04] p-4">
         <p className="text-sm font-semibold text-slate-400">Package Price</p>
         <h4 className="mt-1 text-4xl font-black text-emerald-300">
           ${formatBalance(pac?.price || pac?.p_price || 0)}

@@ -46,29 +46,29 @@ const TasksReport = () => {
       />
 
       {/* ────────── Report Hero Card ────────── */}
-      <section className="relative overflow-hidden rounded-[32px] border border-violet-400/20 bg-gradient-to-br from-violet-500/20 via-indigo-950/90 to-cyan-950/35 p-5">
+      <section className="relative overflow-hidden rounded-2xl border border-violet-400/20 bg-gradient-to-br from-violet-500/20 via-indigo-950/90 to-cyan-950/35 p-5">
         <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-violet-400/20 blur-2xl" />
         <div className="relative z-10 flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.2em] text-violet-300/90">
               Performance
             </p>
-            <h2 className="mt-2 text-4xl font-black tracking-tight">
+            <h2 className="mt-2 text-2xl font-black tracking-tight">
               Task Report
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <p className="mt-2 text-[0.6rem] leading-6 text-slate-400">
               Track your completed tasks, reward value, and total daily
               earnings.
             </p>
           </div>
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] border border-violet-400/25 bg-violet-500/15 text-violet-300">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl border border-violet-400/25 bg-violet-500/15 text-violet-300">
             <HiClipboardDocumentList className="text-4xl" />
           </div>
         </div>
       </section>
 
       {/* ────────── Report Summary Cards ────────── */}
-      <section className="grid grid-cols-3 gap-3">
+      <section className="grid grid-cols-1 gap-2">
         <NeonStatCard
           label="Reports"
           value={tasksReports.length}

@@ -494,13 +494,17 @@ body .analyst ul::-webkit-scrollbar-thumb {
   display: flex;
   align-items: center;
   min-height: 64px;
-  border-radius: 22px;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.04);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   transition:
     background 0.25s ease,
     border-color 0.25s ease;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
 }
 .adnexa-input-wrap:focus-within {
   border-color: rgba(255, 255, 255, 0.12);

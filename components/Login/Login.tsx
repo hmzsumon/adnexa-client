@@ -57,7 +57,7 @@ const Login = () => {
   return (
     <div className="adnexa-app-bg min-h-screen px-2 py-2">
       {/* ────────── Mobile Login Shell ────────── */}
-      <div className="relative mx-auto flex min-h-[calc(100vh-48px)] max-w-[460px] flex-col overflow-hidden rounded-[36px] border border-white/5 bg-[#05071c]/95 px-3 pb-8 pt-10 shadow-2xl shadow-black/60">
+      <div className="relative mx-auto flex min-h-[calc(100vh-48px)] max-w-[460px] flex-col overflow-hidden rounded-2xl border border-white/5 bg-[#05071c]/95 px-3 pb-8 pt-10 shadow-2xl shadow-black/60">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,rgba(124,58,237,.25),transparent_60%)]" />
 
         {/* ────────── Brand Area ────────── */}

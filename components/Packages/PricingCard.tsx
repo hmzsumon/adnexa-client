@@ -52,12 +52,12 @@ const PricingCard = ({ pac, index = 0 }: any) => {
 
   return (
     <article
-      className={`rounded-[28px] border bg-[#090d2b]/70 p-4 shadow-2xl backdrop-blur-xl ${variant.border}`}
+      className={`rounded-2xl border bg-[#090d2b]/70 p-4 shadow-2xl backdrop-blur-xl ${variant.border}`}
     >
       {/* ────────── Package Top Area ────────── */}
       <div className="flex items-center gap-4">
         <div
-          className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-[24px] border bg-gradient-to-br ${variant.iconBox}`}
+          className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-xl border bg-gradient-to-br ${variant.iconBox}`}
         >
           <Icon className="text-4xl drop-shadow-[0_0_16px_currentColor]" />
         </div>
@@ -73,10 +73,10 @@ const PricingCard = ({ pac, index = 0 }: any) => {
               {variant.label}
             </span>
           </div>
-          <p className={`text-4xl font-black tracking-tight ${variant.price}`}>
+          <p className={`text-2xl font-black tracking-tight ${variant.price}`}>
             ${Number(pac?.price || 0).toLocaleString()}
           </p>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-[0.6rem] text-slate-400">
             Invest smartly and earn daily returns
           </p>
         </div>
@@ -85,7 +85,7 @@ const PricingCard = ({ pac, index = 0 }: any) => {
       {/* ────────── Invest Button ────────── */}
       <Link
         href={`/investment/${pac?._id}`}
-        className={`mt-5 flex w-full items-center justify-center rounded-2xl bg-gradient-to-r px-5 py-4 text-base font-black text-white shadow-xl transition-all duration-300 hover:-translate-y-1 ${variant.button}`}
+        className={`mt-5 flex w-full items-center justify-center rounded-xl bg-gradient-to-r px-5 py-4 text-base font-black text-white shadow-xl transition-all duration-300 hover:-translate-y-1 ${variant.button}`}
       >
         Invest Now
       </Link>

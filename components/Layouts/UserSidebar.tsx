@@ -17,7 +17,6 @@ import {
   HiGlobeAlt,
   HiHeart,
   HiHome,
-  HiPaperAirplane,
   HiTrophy,
   HiXMark,
 } from "react-icons/hi2";
@@ -46,22 +45,22 @@ const menuGroups = [
     items: [
       {
         label: "Deposit",
-        href: "/deposit/binance-pay",
+        href: "/deposit",
         icon: HiArrowDownTray,
         accent: "text-emerald-300",
       },
       {
         label: "Withdraw",
-        href: "/withdraw/tether",
+        href: "/withdraw",
         icon: HiArrowUpTray,
         accent: "text-sky-300",
       },
-      {
-        label: "Send USDT",
-        href: "/send",
-        icon: HiPaperAirplane,
-        accent: "text-fuchsia-300",
-      },
+      // {
+      //   label: "Send USDT",
+      //   href: "/send",
+      //   icon: HiPaperAirplane,
+      //   accent: "text-fuchsia-300",
+      // },
     ],
   },
   {
@@ -167,7 +166,7 @@ const UserSidebar = ({ handleClose }: { handleClose?: () => void }) => {
       {/* ────────── Drawer Scroll Content ────────── */}
       <div className="min-h-0 flex-1 overscroll-contain overflow-y-auto px-3 pb-36 pt-5 adnexa-scrollbar">
         {/* ────────── User Mini Profile Card ────────── */}
-        <div className="adnexa-glass-card mb-4 rounded-[24px] p-3">
+        <div className="adnexa-glass-card mb-4 rounded-2xl p-3">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-cyan-400 text-sm font-black shadow-[0_0_28px_rgba(124,58,237,.45)]">
               {user?.name ? user.name.slice(0, 2).toUpperCase() : "AD"}
@@ -205,7 +204,7 @@ const UserSidebar = ({ handleClose }: { handleClose?: () => void }) => {
           {menuGroups.map((group) => (
             <div
               key={group.title}
-              className="adnexa-glass-card rounded-[22px] p-3"
+              className="adnexa-glass-card rounded-2xl p-3"
             >
               <h4 className="mb-2 px-2 text-xs font-black uppercase tracking-[.2em] text-slate-500">
                 {group.title}
@@ -222,7 +221,7 @@ const UserSidebar = ({ handleClose }: { handleClose?: () => void }) => {
                       key={item.href}
                       href={item.href}
                       onClick={handleClose}
-                      className={`flex items-center gap-3 rounded-[18px] px-3 py-3 transition-all duration-300 ${
+                      className={`flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-300 ${
                         active
                           ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-900/30"
                           : "text-slate-300 hover:bg-white/5 hover:text-white"
@@ -251,7 +250,7 @@ const UserSidebar = ({ handleClose }: { handleClose?: () => void }) => {
         <Link
           href="/partner-program"
           onClick={handleClose}
-          className="mt-4 block rounded-[18px] border border-violet-400/30 bg-gradient-to-r from-violet-700/40 to-cyan-600/20 px-2 py-4 shadow-[0_0_35px_rgba(124,58,237,.25)]"
+          className="mt-4 block rounded-2xl border border-violet-400/30 bg-gradient-to-r from-violet-700/40 to-cyan-600/20 px-2 py-4 shadow-[0_0_35px_rgba(124,58,237,.25)]"
         >
           <div className="flex items-center gap-1">
             <div className="text-3xl">🎁</div>

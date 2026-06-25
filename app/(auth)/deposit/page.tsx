@@ -13,7 +13,6 @@ import { FaRegCreditCard } from "react-icons/fa";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { GoHistory } from "react-icons/go";
 import {
-  HiArrowDownTray,
   HiBanknotes,
   HiClock,
   HiCurrencyDollar,
@@ -158,7 +157,7 @@ const Deposit = () => {
       {/* ────────── Page Header ────────── */}
       <PageHeader
         title="Deposit"
-        subtitle="Add funds to your Adnexa wallet"
+        subtitle="Add funds to your wallet"
         rightLabel="History"
         rightHref="/deposit/history"
         rightIcon={GoHistory}
@@ -172,22 +171,19 @@ const Deposit = () => {
             <p className="text-sm font-black uppercase tracking-[0.2em] text-teal-300/90">
               Secure Deposit
             </p>
-            <h2 className="mt-2 text-4xl font-black tracking-tight">
+            <h2 className="mt-2 text-2xl font-black tracking-tight">
               Fund Wallet
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <p className="mt-2 text-xs leading-6 text-slate-400">
               Choose your preferred payment method and continue earning with
               Adnexa.
             </p>
-          </div>
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] border border-teal-400/25 bg-teal-400/12 text-teal-300 shadow-[0_0_35px_rgba(45,212,191,.18)]">
-            <HiArrowDownTray className="text-4xl" />
           </div>
         </div>
       </section>
 
       {/* ────────── Wallet Overview ────────── */}
-      <section className="grid grid-cols-2 gap-3">
+      <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Main Balance"
           value={`$${formatBalance(user?.m_balance || 0)}`}
@@ -210,36 +206,38 @@ const Deposit = () => {
           subtitle="Payment Methods"
           title="Choose Deposit Channel"
         />
-        {depositMethods.map((method) => (
-          <MethodCard
-            key={method.id}
-            title={method.title}
-            statusLabel={method.isActive ? "Recommended" : "Unavailable"}
-            isActive={method.isActive}
-            href={method.link}
-            icon={method.icon}
-            image={method.img}
-            accent={method.accent}
-          >
-            <div>
-              <HiClock className="mx-auto mb-1 text-lg text-slate-300" />
-              <p>Time</p>
-              <p className="mt-1 font-black text-white">
-                {method.processingTime}
-              </p>
-            </div>
-            <div className="border-x border-white/10">
-              <HiSparkles className="mx-auto mb-1 text-lg text-slate-300" />
-              <p>Fee</p>
-              <p className="mt-1 font-black text-white">{method.fee}</p>
-            </div>
-            <div>
-              <HiCurrencyDollar className="mx-auto mb-1 text-lg text-slate-300" />
-              <p>Limit</p>
-              <p className="mt-1 font-black text-white">{method.limit}</p>
-            </div>
-          </MethodCard>
-        ))}
+        <div>
+          {depositMethods.map((method) => (
+            <MethodCard
+              key={method.id}
+              title={method.title}
+              statusLabel={method.isActive ? "Recommended" : "Unavailable"}
+              isActive={method.isActive}
+              href={method.link}
+              icon={method.icon}
+              image={method.img}
+              accent={method.accent}
+            >
+              <div>
+                <HiClock className="mx-auto mb-1 text-lg text-slate-300" />
+                <p>Time</p>
+                <p className="mt-1 font-black text-white">
+                  {method.processingTime}
+                </p>
+              </div>
+              <div className="border-x border-white/10">
+                <HiSparkles className="mx-auto mb-1 text-lg text-slate-300" />
+                <p>Fee</p>
+                <p className="mt-1 font-black text-white">{method.fee}</p>
+              </div>
+              <div>
+                <HiCurrencyDollar className="mx-auto mb-1 text-lg text-slate-300" />
+                <p>Limit</p>
+                <p className="mt-1 font-black text-white">{method.limit}</p>
+              </div>
+            </MethodCard>
+          ))}
+        </div>
       </section>
 
       {/* ────────── Safety Note ────────── */}

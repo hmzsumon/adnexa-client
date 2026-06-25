@@ -16,7 +16,6 @@ import {
   HiCube,
   HiGift,
   HiHeart,
-  HiPaperAirplane,
   HiTrophy,
   HiWallet,
 } from "react-icons/hi2";
@@ -56,25 +55,25 @@ const Dashboard = () => {
       )}
 
       {/* ────────── Welcome Hero Balance Card ────────── */}
-      <section className="relative overflow-hidden rounded-[32px] border border-violet-400/20 bg-gradient-to-br from-violet-700/35 via-indigo-950/85 to-cyan-950/40 p-5 shadow-[0_0_55px_rgba(88,28,135,.25)]">
+      <section className="relative overflow-hidden rounded-xl border border-violet-400/20 bg-gradient-to-br from-violet-700/35 via-indigo-950/85 to-cyan-950/40 p-5 shadow-[0_0_55px_rgba(88,28,135,.25)]">
         <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-cyan-400/15 blur-2xl" />
-        <div className="pointer-events-none absolute right-6 top-6 hidden h-28 w-28 rounded-[32px] bg-gradient-to-br from-cyan-400/20 to-violet-600/30 shadow-[0_0_45px_rgba(34,211,238,.15)] sm:block" />
+        <div className="pointer-events-none absolute right-6 top-6 hidden h-28 w-28 rounded-xl bg-gradient-to-br from-cyan-400/20 to-violet-600/30 shadow-[0_0_45px_rgba(34,211,238,.15)] sm:block" />
 
         {/* ────────── Welcome Text ────────── */}
         <div className="relative z-10">
           <p className="text-base font-medium text-slate-300">
             Welcome back, 👋
           </p>
-          <h2 className="mt-1 text-3xl font-black tracking-tight text-white">
+          <h2 className="mt-1 text-xl font-black tracking-tight text-white">
             {userName}
           </h2>
-          <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/15 px-4 py-2 text-sm font-bold text-violet-100">
+          {/* <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/15 px-4 py-2 text-sm font-bold text-violet-100">
             <HiCheckBadge className="text-lg text-violet-300" /> Level Investor
-          </span>
+          </span> */}
         </div>
 
         {/* ────────── Balance Summary Panel ────────── */}
-        <div className="relative z-10 mt-7 grid grid-cols-2 overflow-hidden rounded-[26px] border border-white/10 bg-white/[.045] backdrop-blur-xl">
+        <div className="relative z-10 mt-7 grid grid-cols-2 overflow-hidden rounded-xl border border-white/10 bg-white/[.045] backdrop-blur-xl">
           <div className="border-r border-white/10 p-4">
             <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-400/15 text-cyan-300">
               <HiWallet className="text-2xl" />
@@ -99,7 +98,7 @@ const Dashboard = () => {
       </section>
 
       {/* ────────── Main Action Buttons ────────── */}
-      <section className="grid grid-cols-4 gap-3">
+      <section className="grid grid-cols-3 gap-3">
         <ActionTile
           label="Deposit"
           href="/deposit"
@@ -112,12 +111,7 @@ const Dashboard = () => {
           icon={HiArrowUpTray}
           variant="blue"
         />
-        <ActionTile
-          label="Send"
-          href="/send"
-          icon={HiPaperAirplane}
-          variant="violet"
-        />
+
         <ActionTile
           label="Invest"
           href="/investment"
@@ -127,9 +121,9 @@ const Dashboard = () => {
       </section>
 
       {/* ────────── Overview Statistics ────────── */}
-      <section className="adnexa-glass-card rounded-[28px] p-4">
+      <section className="adnexa-glass-card rounded-xl p-4">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-black">Overview</h2>
+          <h2 className="text-xl font-black">Overview</h2>
           <Link
             href="/transactions"
             className="inline-flex items-center gap-1 text-sm font-bold text-violet-300"
@@ -138,7 +132,7 @@ const Dashboard = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3">
           <MetricCard
             title="Total Investment"
             value={`$${formatBalance(dashboardData?.total_investment || 0)}`}
@@ -171,9 +165,9 @@ const Dashboard = () => {
       </section>
 
       {/* ────────── Quick Links ────────── */}
-      <section className="adnexa-glass-card rounded-[28px] p-4">
-        <h2 className="mb-4 text-2xl font-black">Quick Links</h2>
-        <div className="grid grid-cols-2 gap-3">
+      <section className="adnexa-glass-card rounded-2xl p-4">
+        <h2 className="mb-4 text-xl font-black">Quick Links</h2>
+        <div className="grid grid-cols-1 gap-3">
           <QuickLinkTile
             title="My Tasks"
             subtitle="Complete & earn"

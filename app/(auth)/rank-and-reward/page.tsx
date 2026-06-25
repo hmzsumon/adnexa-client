@@ -102,18 +102,18 @@ const RankAndReward = () => {
       />
 
       {/* ────────── Rank Hero Card ────────── */}
-      <section className="relative overflow-hidden rounded-[32px] border border-amber-400/20 bg-gradient-to-br from-amber-500/15 via-indigo-950/90 to-violet-950/55 p-5">
+      <section className="relative overflow-hidden rounded-2xl border border-amber-400/20 bg-gradient-to-br from-amber-500/15 via-indigo-950/90 to-violet-950/55 p-5">
         <div className="pointer-events-none absolute -right-8 -top-8 h-44 w-44 rounded-full bg-amber-400/15 blur-2xl" />
         <div className="relative z-10 flex items-start gap-4">
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] border border-amber-400/25 bg-amber-400/10 text-amber-300">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-amber-400/25 bg-amber-400/10 text-amber-300">
             <HiTrophy className="text-4xl" />
           </div>
           <div>
             <p className="text-sm font-black uppercase tracking-[0.2em] text-amber-300/90">
               Achievement
             </p>
-            <h2 className="mt-1 text-3xl font-black">Unlock Rewards</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <h2 className="mt-1 text-xl font-black">Unlock Rewards</h2>
+            <p className="mt-2 text-[0.6rem] leading-6 text-slate-400">
               Refer, build your team, increase sales, and reach higher Adnexa
               ranks.
             </p>

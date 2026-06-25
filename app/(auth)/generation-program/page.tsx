@@ -24,18 +24,18 @@ const GenerationProgram = () => {
       />
 
       {/* ────────── Generation Hero Card ────────── */}
-      <section className="relative overflow-hidden rounded-[32px] border border-cyan-400/20 bg-gradient-to-br from-cyan-500/16 via-indigo-950/90 to-violet-950/55 p-5 shadow-[0_0_55px_rgba(34,211,238,.12)]">
-        <div className="pointer-events-none absolute -right-8 -top-8 h-44 w-44 rounded-full bg-cyan-400/15 blur-2xl" />
+      <section className="relative overflow-hidden rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/16 via-indigo-950/90 to-violet-950/55 p-5 shadow-[0_0_55px_rgba(34,211,238,.12)]">
+        <div className="pointer-events-none absolute -right-8 -top-8 h-44 w-44 rounded-xl bg-cyan-400/15 blur-2xl" />
         <div className="relative z-10 flex items-start gap-4">
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] border border-cyan-400/25 bg-cyan-400/10 text-cyan-300">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl border border-cyan-400/25 bg-cyan-400/10 text-cyan-300">
             <HiGlobeAlt className="text-4xl" />
           </div>
           <div>
             <p className="text-sm font-black uppercase tracking-[0.2em] text-cyan-300/90">
               Team Growth
             </p>
-            <h2 className="mt-1 text-3xl font-black">Generation Income</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <h2 className="mt-1 text-lg font-black">Generation Income</h2>
+            <p className="mt-2 text-[0.6rem] leading-6 text-slate-400">
               Monitor every generation, package volume, and commission from your
               team.
             </p>
@@ -44,7 +44,7 @@ const GenerationProgram = () => {
       </section>
 
       {/* ────────── Generation Stats ────────── */}
-      <section className="grid grid-cols-2 gap-3">
+      <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Current Bonus"
           value={`$${formatBalance(wallet?.current_generation_earning || 0)}`}

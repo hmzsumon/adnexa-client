@@ -33,7 +33,7 @@ const Partners = () => {
         <details
           key={level.label}
           open={index === 0}
-          className="adnexa-glass-card rounded-[26px] p-4"
+          className="adnexa-glass-card rounded-2xl p-3"
         >
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
             <div className="flex items-center gap-3">

@@ -110,17 +110,17 @@ const Withdraw = () => {
       />
 
       {/* ────────── Withdraw Hero Card ────────── */}
-      <section className="relative overflow-hidden rounded-[32px] border border-blue-400/20 bg-gradient-to-br from-blue-500/18 via-indigo-950/85 to-violet-950/55 p-5 shadow-[0_0_55px_rgba(37,99,235,.14)]">
+      <section className="relative overflow-hidden rounded-2xl border border-blue-400/20 bg-gradient-to-br from-blue-500/18 via-indigo-950/85 to-violet-950/55 p-5 shadow-[0_0_55px_rgba(37,99,235,.14)]">
         <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-blue-400/20 blur-2xl" />
         <div className="relative z-10 flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.2em] text-blue-300/90">
               Fast Withdraw
             </p>
-            <h2 className="mt-2 text-4xl font-black tracking-tight">
+            <h2 className="mt-2 text-2xl font-black tracking-tight">
               Cash Out
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <p className="mt-2 text-[0.6rem] leading-6 text-slate-400">
               Select a channel, submit your details, and track the request from
               history.
             </p>
@@ -132,7 +132,7 @@ const Withdraw = () => {
       </section>
 
       {/* ────────── Wallet Overview ────────── */}
-      <section className="grid grid-cols-2 gap-3">
+      <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Main Balance"
           value={`$${formatBalance(user?.m_balance || 0)}`}

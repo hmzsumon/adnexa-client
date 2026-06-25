@@ -8,13 +8,7 @@ import TransactionCards from "@/components/Transactions/TransactionCards";
 import { formatBalance } from "@/lib/functions";
 import { useGetTransactionsQuery } from "@/redux/features/transactions/transactionApi";
 import { useMemo, useState } from "react";
-import {
-  HiArrowsRightLeft,
-  HiBanknotes,
-  HiCube,
-  HiDocumentText,
-  HiFunnel,
-} from "react-icons/hi2";
+import { HiBanknotes, HiCube, HiDocumentText, HiFunnel } from "react-icons/hi2";
 import RingLoader from "react-spinners/RingLoader";
 
 const options = [
@@ -60,18 +54,15 @@ const Transactions = () => {
       />
 
       {/* ────────── Transaction Hero Card ────────── */}
-      <section className="relative overflow-hidden rounded-[32px] border border-blue-400/20 bg-gradient-to-br from-blue-500/15 via-indigo-950/90 to-violet-950/55 p-5">
+      <section className="relative overflow-hidden rounded-2xl border border-blue-400/20 bg-gradient-to-br from-blue-500/15 via-indigo-950/90 to-violet-950/55 p-5">
         <div className="pointer-events-none absolute -right-8 -top-8 h-44 w-44 rounded-full bg-blue-400/15 blur-2xl" />
         <div className="relative z-10 flex items-start gap-4">
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] border border-blue-400/25 bg-blue-400/10 text-sky-300">
-            <HiArrowsRightLeft className="text-4xl" />
-          </div>
           <div>
             <p className="text-sm font-black uppercase tracking-[0.2em] text-sky-300/90">
               Wallet Ledger
             </p>
-            <h2 className="mt-1 text-3xl font-black">Transaction History</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <h2 className="mt-1 text-xl font-black">Transaction History</h2>
+            <p className="mt-2 text-xs leading-6 text-slate-400">
               Review deposits, withdrawals, transfers, bonuses, and package
               purchases.
             </p>
@@ -80,7 +71,7 @@ const Transactions = () => {
       </section>
 
       {/* ────────── Transaction Summary ────────── */}
-      <section className="grid grid-cols-2 gap-3">
+      <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Cash In"
           value={`$${formatBalance(totals.cashIn)}`}

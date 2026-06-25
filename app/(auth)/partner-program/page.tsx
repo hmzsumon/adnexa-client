@@ -31,18 +31,18 @@ const PartnerProgram = () => {
       />
 
       {/* ────────── Partner Hero Card ────────── */}
-      <section className="relative overflow-hidden rounded-[32px] border border-amber-400/20 bg-gradient-to-br from-amber-500/14 via-indigo-950/90 to-violet-950/55 p-5 shadow-[0_0_55px_rgba(245,158,11,.12)]">
+      <section className="relative overflow-hidden rounded-2xl border border-amber-400/20 bg-gradient-to-br from-amber-500/14 via-indigo-950/90 to-violet-950/55 p-5 shadow-[0_0_55px_rgba(245,158,11,.12)]">
         <div className="pointer-events-none absolute -right-8 -top-8 h-44 w-44 rounded-full bg-amber-400/15 blur-2xl" />
         <div className="relative z-10 flex items-start gap-4">
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] border border-amber-400/25 bg-amber-400/10 text-amber-300">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl border border-amber-400/25 bg-amber-400/10 text-amber-300">
             <HiGift className="text-4xl" />
           </div>
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-amber-300/90">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-300/90">
               Referral Bonus
             </p>
-            <h2 className="mt-1 text-3xl font-black">Invite & Earn More</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <h2 className="mt-1 text-lg font-black">Invite & Earn More</h2>
+            <p className="mt-2 text-[0.6rem] leading-6 text-slate-400">
               Share your Adnexa link and grow your income with your direct
               partner team.
             </p>
@@ -51,7 +51,7 @@ const PartnerProgram = () => {
       </section>
 
       {/* ────────── Partner Stats ────────── */}
-      <section className="grid grid-cols-2 gap-3">
+      <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Level Earning"
           value={`$${formatBalance(wallet?.total_level_earning || 0)}`}
