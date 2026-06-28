@@ -2,14 +2,13 @@
 
 import AppBrand from "@/components/MobileApp/AppBrand";
 import { useRegisterUserMutation } from "@/redux/features/admin/adminUsersApi";
-import { useCheckEmailExistOrNotMutation } from "@/redux/features/auth/authApi";
+import { useCheckPhoneExistOrNotMutation } from "@/redux/features/auth/authApi";
 import { fetchBaseQueryError } from "@/redux/services/helpers";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   HiArrowRight,
-  HiAtSymbol,
   HiEye,
   HiEyeSlash,
   HiLockClosed,
@@ -28,13 +27,12 @@ const Register = () => {
   const searchParams = useSearchParams();
   const referralCodeFromUrl = searchParams.get("referral_code");
 
-  const [checkEmailExistOrNot, { data: emailCheckData }] =
-    useCheckEmailExistOrNotMutation();
+  const [checkPhoneExistOrNot, { data: phoneCheckData }] =
+    useCheckPhoneExistOrNotMutation();
   const [registerUser, { isSuccess, isLoading, isError, error }] =
     useRegisterUserMutation();
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [referralCode, setReferralCode] = useState("");
   const [password, setPassword] = useState("");
@@ -42,7 +40,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isAgree, setIsAgree] = useState(false);
-  const [emailError, setEmailError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [formError, setFormError] = useState("");
 
   // ────────── Referral Code Prefill ──────────
@@ -50,16 +48,16 @@ const Register = () => {
     if (referralCodeFromUrl) setReferralCode(referralCodeFromUrl);
   }, [referralCodeFromUrl]);
 
-  // ────────── Existing Email Checker ──────────
+  // ────────── Existing Mobile Checker ──────────
   useEffect(() => {
-    if (emailCheckData?.isExist) setEmailError("Email already exists");
-  }, [emailCheckData]);
+    if (phoneCheckData?.isExist) setPhoneError("Mobile number already exists");
+  }, [phoneCheckData]);
 
   // ────────── Register Response Handler ──────────
   useEffect(() => {
     if (isSuccess) {
       toast.success("Account created successfully");
-      router.push("/verify-email?email=" + email);
+      router.push("/login");
     }
 
     if (isError) {
@@ -67,17 +65,13 @@ const Register = () => {
         (error as fetchBaseQueryError).data?.message || "Registration failed",
       );
     }
-  }, [isSuccess, isError, error, email, router]);
+  }, [isSuccess, isError, error, router]);
 
-  // ────────── Email Blur Handler ──────────
-  const handleEmailCheck = () => {
-    if (!email) return;
-    if (!email.includes("@")) {
-      setEmailError("Please enter a valid email address");
-      return;
-    }
-    setEmailError("");
-    checkEmailExistOrNot({ email });
+  // ────────── Mobile Blur Handler ──────────
+  const handlePhoneCheck = () => {
+    if (!phone) return;
+    setPhoneError("");
+    checkPhoneExistOrNot({ phone });
   };
 
   // ────────── Register Submit Handler ──────────
@@ -86,9 +80,8 @@ const Register = () => {
     setFormError("");
 
     if (!name.trim()) return setFormError("Please enter your name");
-    if (!email.includes("@"))
-      return setFormError("Please enter a valid email address");
-    if (!phone) return setFormError("Please enter your phone number");
+    if (!phone) return setFormError("Please enter your mobile number");
+    if (phoneError) return setFormError(phoneError);
     if (password.length < 6)
       return setFormError("Password must be at least 6 characters");
     if (password !== confirmPassword)
@@ -98,7 +91,6 @@ const Register = () => {
 
     registerUser({
       name,
-      email,
       phone,
       referralCode: referralCode || "202004",
       password,
@@ -157,54 +149,31 @@ const Register = () => {
             </div>
           </div>
 
-          {/* ────────── Email Input ────────── */}
-          <div>
-            <label
-              htmlFor="email"
-              className="mb-2 block text-sm font-bold text-slate-300"
-            >
-              Email Address
-            </label>
-            <div
-              className={`adnexa-input-wrap ${emailError ? "border-red-400/70" : ""}`}
-            >
-              <span className="adnexa-input-icon text-sky-300">
-                <HiAtSymbol className="text-2xl" />
-              </span>
-              <input
-                id="email"
-                type="email"
-                className="adnexa-input"
-                placeholder="youremail@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onBlur={handleEmailCheck}
-                required
-              />
-            </div>
-            {emailError && (
-              <p className="mt-2 text-xs font-semibold text-red-300">
-                {emailError}
-              </p>
-            )}
-          </div>
-
-          {/* ────────── Phone Input ────────── */}
+          {/* ────────── Mobile Input Section ────────── */}
           <div>
             <label className="mb-2 block text-sm font-bold text-slate-300">
-              Phone Number
+              Mobile Number
             </label>
             <div className="adnexa-input-wrap adnexa-phone-field !block">
               <PhoneInput
-                country="us"
+                country="bd"
                 value={phone}
-                onChange={(value) => setPhone(value)}
-                placeholder="Enter phone number"
+                onChange={(value) => {
+                  setPhone(value);
+                  setPhoneError("");
+                }}
+                onBlur={handlePhoneCheck}
+                placeholder="Enter mobile number"
                 inputClass="adnexa-phone-input"
                 buttonClass="adnexa-phone-button"
                 dropdownClass="adnexa-phone-dropdown"
               />
             </div>
+            {phoneError && (
+              <p className="mt-2 text-xs font-semibold text-red-300">
+                {phoneError}
+              </p>
+            )}
           </div>
 
           {/* ────────── Referral Code Input ────────── */}

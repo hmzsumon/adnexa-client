@@ -6,21 +6,17 @@ import { fetchBaseQueryError } from "@/redux/services/helpers";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-  HiArrowRight,
-  HiAtSymbol,
-  HiEye,
-  HiEyeSlash,
-  HiLockClosed,
-} from "react-icons/hi2";
+import { HiArrowRight, HiEye, HiEyeSlash, HiLockClosed } from "react-icons/hi2";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import PulseLoader from "react-spinners/PulseLoader";
 import { toast } from "react-toastify";
 
 const Login = () => {
   const [loginUser, { isLoading, isError, error, isSuccess }] =
     useLoginUserMutation();
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
@@ -29,13 +25,13 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (email.length > 0 && !email.includes("@")) {
-      setEmailError(true);
-      toast.error("Please enter a valid email address");
+    if (!phone) {
+      setPhoneError(true);
+      toast.error("Please enter your mobile number");
       return;
     }
 
-    loginUser({ email, password });
+    loginUser({ phone, password });
   };
 
   // ────────── Login Response Handler ──────────
@@ -47,12 +43,10 @@ const Login = () => {
 
     if (isError) {
       toast.error((error as fetchBaseQueryError).data?.message);
-      if ((error as fetchBaseQueryError).status === 421)
-        router.push("/verify-email?email=" + email);
       if ((error as fetchBaseQueryError).status === 422)
         router.push("/suspend");
     }
-  }, [isSuccess, isError, error, email, router]);
+  }, [isSuccess, isError, error, router]);
 
   return (
     <div className="adnexa-app-bg min-h-screen px-2 py-2">
@@ -80,36 +74,30 @@ const Login = () => {
 
         {/* ────────── Login Form ────────── */}
         <form className="relative z-10 mt-8 space-y-5" onSubmit={handleLogin}>
-          {/* ────────── Email Input ────────── */}
+          {/* ────────── Mobile Login Input Section ────────── */}
           <div>
-            <label
-              htmlFor="email"
-              className="mb-2 block text-sm font-bold text-slate-300"
-            >
-              Email Address
+            <label className="mb-2 block text-sm font-bold text-slate-300">
+              Mobile Number
             </label>
             <div
-              className={`adnexa-input-wrap ${emailError ? "border-red-400/70" : ""}`}
+              className={`adnexa-input-wrap adnexa-phone-field !block ${phoneError ? "border-red-400/70" : ""}`}
             >
-              <span className="adnexa-input-icon text-sky-300">
-                <HiAtSymbol className="text-2xl" />
-              </span>
-              <input
-                id="email"
-                type="email"
-                placeholder="youremail@example.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onBlur={() =>
-                  setEmailError(email.length > 0 && !email.includes("@"))
-                }
-                className="adnexa-input"
+              <PhoneInput
+                country="bd"
+                value={phone}
+                onChange={(value) => {
+                  setPhone(value);
+                  setPhoneError(false);
+                }}
+                placeholder="Enter mobile number"
+                inputClass="adnexa-phone-input"
+                buttonClass="adnexa-phone-button"
+                dropdownClass="adnexa-phone-dropdown"
               />
             </div>
-            {emailError && (
+            {phoneError && (
               <p className="mt-2 text-xs font-semibold text-red-300">
-                Please enter a valid email address
+                Please enter your mobile number
               </p>
             )}
           </div>
