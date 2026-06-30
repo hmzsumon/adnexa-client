@@ -74,14 +74,14 @@ const Transactions = () => {
       <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Cash In"
-          value={`$${formatBalance(totals.cashIn)}`}
+          value={`BDT ${formatBalance(totals.cashIn)}`}
           description="Total received"
           icon={HiBanknotes}
           variant="green"
         />
         <NeonStatCard
           label="Cash Out"
-          value={`$${formatBalance(totals.cashOut)}`}
+          value={`BDT ${formatBalance(totals.cashOut)}`}
           description="Total spent"
           icon={HiCube}
           variant="pink"

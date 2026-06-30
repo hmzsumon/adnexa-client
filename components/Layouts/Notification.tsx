@@ -1,236 +1,123 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { HiBell, HiCheckCircle, HiChevronDown, HiXMark } from "react-icons/hi2";
+import Link from "next/link";
+import {
+  HiArrowTrendingUp,
+  HiCalendarDays,
+  HiChartBar,
+  HiClock,
+  HiRocketLaunch,
+  HiTrophy,
+} from "react-icons/hi2";
 
-const DRAWER_ANIMATION_MS = 420;
+const cardVariants = [
+  {
+    accent: "teal",
+    label: "Popular",
+    icon: HiRocketLaunch,
+    border: "border-teal-400/30 shadow-teal-950/20",
+    iconBox: "from-teal-400/25 to-cyan-500/10 text-teal-300 border-teal-400/30",
+    price: "text-emerald-300",
+    button: "from-emerald-400 to-teal-500 shadow-emerald-500/25",
+    pill: "bg-teal-400/15 text-teal-300",
+  },
+  {
+    accent: "violet",
+    label: "Best Value",
+    icon: HiChartBar,
+    border: "border-violet-400/30 shadow-violet-950/20",
+    iconBox:
+      "from-violet-400/25 to-fuchsia-500/10 text-violet-300 border-violet-400/30",
+    price: "text-violet-300",
+    button: "from-violet-500 to-fuchsia-500 shadow-violet-500/25",
+    pill: "bg-violet-400/15 text-violet-300",
+  },
+  {
+    accent: "amber",
+    label: "Premium",
+    icon: HiTrophy,
+    border: "border-amber-400/30 shadow-amber-950/20",
+    iconBox:
+      "from-amber-400/25 to-orange-500/10 text-amber-300 border-amber-400/30",
+    price: "text-amber-300",
+    button: "from-amber-400 to-orange-500 shadow-amber-500/25",
+    pill: "bg-amber-400/15 text-amber-300",
+  },
+];
 
-type NotificationDrawerProps = {
-  open: boolean;
-  onClose: () => void;
-};
+const PricingCard = ({ pac, index = 0 }: any) => {
+  const variant = cardVariants[index % cardVariants.length];
+  const Icon = variant.icon;
+  const totalReturn = pac?.total_return || pac?.return_percent || 0;
 
-const NotificationDrawer = ({ open, onClose }: NotificationDrawerProps) => {
-  const [isMounted, setIsMounted] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [portalReady, setPortalReady] = useState(false);
-
-  const scrollPositionRef = useRef(0);
-  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // ────────── Clear Timer ──────────
-  const clearCloseTimer = useCallback(() => {
-    if (!closeTimerRef.current) return;
-
-    clearTimeout(closeTimerRef.current);
-    closeTimerRef.current = null;
-  }, []);
-
-  // ────────── Open Animation ──────────
-  useEffect(() => {
-    if (!open) return;
-
-    clearCloseTimer();
-    scrollPositionRef.current = window.scrollY;
-    setIsMounted(true);
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setIsVisible(true);
-      });
-    });
-  }, [clearCloseTimer, open]);
-
-  // ────────── Close Animation ──────────
-  const handleClose = useCallback(() => {
-    setIsVisible(false);
-    clearCloseTimer();
-
-    closeTimerRef.current = setTimeout(() => {
-      setIsMounted(false);
-      closeTimerRef.current = null;
-      onClose();
-    }, DRAWER_ANIMATION_MS);
-  }, [clearCloseTimer, onClose]);
-
-  // ────────── Portal Ready ──────────
-  useEffect(() => {
-    setPortalReady(true);
-
-    return () => {
-      clearCloseTimer();
-    };
-  }, [clearCloseTimer]);
-
-  // ────────── Body Scroll Lock Without Jump ──────────
-  useEffect(() => {
-    if (!isMounted) return;
-
-    const currentScrollY = scrollPositionRef.current;
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
-
-    const previousHtmlOverflow = document.documentElement.style.overflow;
-    const previousHtmlScrollbarGutter =
-      document.documentElement.style.scrollbarGutter;
-
-    const previousBodyOverflow = document.body.style.overflow;
-    const previousBodyPosition = document.body.style.position;
-    const previousBodyTop = document.body.style.top;
-    const previousBodyLeft = document.body.style.left;
-    const previousBodyRight = document.body.style.right;
-    const previousBodyWidth = document.body.style.width;
-    const previousBodyPaddingRight = document.body.style.paddingRight;
-
-    document.documentElement.style.overflow = "hidden";
-    document.documentElement.style.scrollbarGutter = "stable";
-
-    document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${currentScrollY}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.width = "100%";
-
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-
-    return () => {
-      document.documentElement.style.overflow = previousHtmlOverflow;
-      document.documentElement.style.scrollbarGutter =
-        previousHtmlScrollbarGutter;
-
-      document.body.style.overflow = previousBodyOverflow;
-      document.body.style.position = previousBodyPosition;
-      document.body.style.top = previousBodyTop;
-      document.body.style.left = previousBodyLeft;
-      document.body.style.right = previousBodyRight;
-      document.body.style.width = previousBodyWidth;
-      document.body.style.paddingRight = previousBodyPaddingRight;
-
-      window.scrollTo(0, currentScrollY);
-    };
-  }, [isMounted]);
-
-  // ────────── Escape Key Close ──────────
-  useEffect(() => {
-    if (!isMounted) return;
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") handleClose();
-    };
-
-    window.addEventListener("keydown", handleEscape);
-
-    return () => {
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, [handleClose, isMounted]);
-
-  if (!portalReady || !isMounted) return null;
-
-  const drawerMarkup = (
-    <div className="fixed inset-0 z-[10000] h-dvh overflow-hidden overscroll-none">
-      {/* ────────── App Width Wrapper ────────── */}
-      <div className="relative mx-auto h-dvh max-w-[460px] overflow-hidden">
-        {/* ────────── Backdrop ────────── */}
-        <button
-          type="button"
-          onClick={handleClose}
-          aria-label="Close notifications"
-          className={`absolute inset-0 bg-black/65 backdrop-blur-md transition-opacity duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
-        />
-
-        {/* ────────── Notification Panel ────────── */}
-        <aside
-          className={`absolute inset-y-0 right-0 h-dvh w-[88%] max-w-[390px] overflow-hidden rounded-l-[32px] border-l border-cyan-400/10 bg-[#060823] shadow-2xl shadow-black/80 transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
-            isVisible
-              ? "translate-x-0 opacity-100"
-              : "translate-x-full opacity-95"
-          }`}
+  return (
+    <article
+      className={`rounded-2xl border bg-[#090d2b]/70 p-4 shadow-2xl backdrop-blur-xl ${variant.border}`}
+    >
+      {/* ────────── Package Top Area ────────── */}
+      <div className="flex items-center gap-4">
+        <div
+          className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-xl border bg-gradient-to-br ${variant.iconBox}`}
         >
-          <div className="flex h-full flex-col overflow-hidden">
-            {/* ────────── Sticky Header ────────── */}
-            <div className="sticky top-0 z-20 border-b border-white/10 bg-[#060823]/95 px-5 pb-4 pt-6 backdrop-blur-xl">
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-cyan-300">
-                    <HiBell className="text-3xl" />
-                  </div>
+          <Icon className="text-4xl drop-shadow-[0_0_16px_currentColor]" />
+        </div>
 
-                  <div>
-                    <h2 className="text-2xl font-black text-white">
-                      Notifications
-                    </h2>
-                    <p className="text-sm font-bold text-slate-400">
-                      Latest account updates
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/8 text-slate-300 transition hover:bg-white/12"
-                  aria-label="Close"
-                >
-                  <HiXMark className="text-2xl" />
-                </button>
-              </div>
-            </div>
-
-            {/* ────────── Notification List ────────── */}
-            <div className="flex-1 space-y-4 overflow-y-auto overscroll-contain px-5 py-5 pb-28">
-              <div className="rounded-[26px] border border-emerald-400/20 bg-gradient-to-br from-emerald-400/12 via-indigo-950/80 to-violet-950/50 p-4">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-emerald-400/20 bg-emerald-400/10 text-emerald-300">
-                    <HiCheckCircle className="text-3xl" />
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h3 className="text-base font-black text-white">
-                          USDT Deposit Successful
-                        </h3>
-                        <p className="mt-1 text-sm leading-6 text-slate-400">
-                          Your deposit request has been approved successfully.
-                        </p>
-                      </div>
-
-                      <HiChevronDown className="mt-1 shrink-0 text-xl text-slate-400" />
-                    </div>
-
-                    <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-3">
-                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
-                        Status
-                      </p>
-                      <p className="mt-1 text-sm font-black text-emerald-300">
-                        Completed
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* ────────── Empty Space / More Items Area ────────── */}
-              <div className="rounded-[24px] border border-dashed border-white/10 bg-white/[0.03] p-5 text-center">
-                <p className="text-sm font-bold text-slate-400">
-                  No more notifications right now.
-                </p>
-              </div>
-            </div>
+        <div className="min-w-0 flex-1">
+          <div className="mb-1 flex flex-wrap items-center gap-2">
+            <h3 className="text-xl font-black text-white">
+              {pac?.title || "Investment Package"}
+            </h3>
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-black ${variant.pill}`}
+            >
+              {variant.label}
+            </span>
           </div>
-        </aside>
+          <p className={`text-2xl font-black tracking-tight ${variant.price}`}>
+            BDT {Number(pac?.price || 0).toLocaleString()}
+          </p>
+          <p className="mt-1 text-[0.6rem] text-slate-400">
+            Invest smartly and earn daily returns
+          </p>
+        </div>
       </div>
-    </div>
-  );
 
-  return createPortal(drawerMarkup, document.body);
+      {/* ────────── Invest Button ────────── */}
+      <Link
+        href={`/investment/${pac?._id}`}
+        className={`mt-5 flex w-full items-center justify-center rounded-xl bg-gradient-to-r px-5 py-4 text-base font-black text-white shadow-xl transition-all duration-300 hover:-translate-y-1 ${variant.button}`}
+      >
+        Invest Now
+      </Link>
+
+      {/* ────────── Package Stats Row ────────── */}
+      <div className="mt-5 grid grid-cols-3 gap-2 border-t border-white/10 pt-4">
+        <div className="text-center">
+          <HiCalendarDays className={`mx-auto mb-1 text-xl ${variant.price}`} />
+          <p className="text-[11px] text-slate-500">Daily Return</p>
+          <p className={`text-base font-black ${variant.price}`}>
+            {pac?.return_percent || pac?.daily_return || 0}%
+          </p>
+        </div>
+        <div className="border-x border-white/10 text-center">
+          <HiClock className={`mx-auto mb-1 text-xl ${variant.price}`} />
+          <p className="text-[11px] text-slate-500">Duration</p>
+          <p className="text-base font-black text-white">
+            {pac?.duration || 0} days
+          </p>
+        </div>
+        <div className="text-center">
+          <HiArrowTrendingUp
+            className={`mx-auto mb-1 text-xl ${variant.price}`}
+          />
+          <p className="text-[11px] text-slate-500">Total Return</p>
+          <p className={`text-base font-black ${variant.price}`}>
+            {totalReturn}%
+          </p>
+        </div>
+      </div>
+    </article>
+  );
 };
 
-export default NotificationDrawer;
+export default PricingCard;

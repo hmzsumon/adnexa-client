@@ -10,14 +10,14 @@ const GenerationSellsInfo = ({ total_sells, level_01_sells }: any) => {
       {/* ────────── Generation Sales Summary ────────── */}
       <NeonStatCard
         label="1st Gen Sales"
-        value={`$${formatBalance(level_01_sells || 0)}`}
+        value={`BDT ${formatBalance(level_01_sells || 0)}`}
         description="Package volume"
         icon={HiUsers}
         variant="teal"
       />
       <NeonStatCard
         label="Total Team Sales"
-        value={`$${formatBalance(total_sells || 0)}`}
+        value={`BDT ${formatBalance(total_sells || 0)}`}
         description="All generations"
         icon={HiChartBar}
         variant="violet"

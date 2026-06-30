@@ -225,9 +225,9 @@ const UserProfileMenu = () => {
                 M Balance
               </p>
               <h4 className="mt-1 text-lg font-black text-emerald-300">
-                ${formatBalance(user?.m_balance)}
+                BDT {formatBalance(user?.m_balance)}
               </h4>
-              <p className="text-[10px] font-bold text-slate-500">USDT</p>
+              <p className="text-[10px] font-bold text-slate-500">BDT</p>
             </div>
 
             <div className="rounded-[22px] border border-violet-400/15 bg-violet-400/8 p-3">
@@ -236,9 +236,9 @@ const UserProfileMenu = () => {
                 G Balance
               </p>
               <h4 className="mt-1 text-lg font-black text-violet-300">
-                ${formatBalance(user?.g_balance)}
+                BDT {formatBalance(user?.g_balance)}
               </h4>
-              <p className="text-[10px] font-bold text-slate-500">USDT</p>
+              <p className="text-[10px] font-bold text-slate-500">BDT</p>
             </div>
           </div>
 

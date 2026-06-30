@@ -20,12 +20,12 @@ import { useSelector } from "react-redux";
 const withdrawMethods = [
   {
     id: 7,
-    title: "USDT TRC20",
+    title: "BDT TRC20",
     isActive: true,
     processingTime: "Instant - 3 hours",
     fee: "5%",
-    additionalFee: "1 USDT",
-    limit: "20 - 20,000 USDT",
+    additionalFee: "1 BDT",
+    limit: "20 - 20,000 BDT",
     icon: "/assets/images/tether-usdt.svg",
     link: "/withdraw/tether",
     accent: "teal" as const,
@@ -36,7 +36,7 @@ const withdrawMethods = [
     isActive: false,
     processingTime: "Instant - 30 min",
     fee: "0%",
-    additionalFee: "0 USDT",
+    additionalFee: "0 BDT",
     limit: "20 - 20,000 USD",
     icon: "/assets/images/binance.svg",
     link: "/withdraw",
@@ -48,8 +48,8 @@ const withdrawMethods = [
     isActive: false,
     processingTime: "Instant - 1 day",
     fee: "0%",
-    additionalFee: "0 USDT",
-    limit: "20 - 10,000 USDT",
+    additionalFee: "0 BDT",
+    limit: "20 - 10,000 BDT",
     icon: "/assets/images/neteller.svg",
     link: "/withdraw",
     accent: "violet" as const,
@@ -60,8 +60,8 @@ const withdrawMethods = [
     isActive: false,
     processingTime: "Instant - 1 day",
     fee: "0%",
-    additionalFee: "0 USDT",
-    limit: "2 - 10,000 USDT",
+    additionalFee: "0 BDT",
+    limit: "2 - 10,000 BDT",
     icon: "/assets/images/perfect-momey.svg",
     link: "/withdraw",
     accent: "blue" as const,
@@ -72,8 +72,8 @@ const withdrawMethods = [
     isActive: false,
     processingTime: "Instant - 1 day",
     fee: "0%",
-    additionalFee: "0 USDT",
-    limit: "10 - 12,000 USDT",
+    additionalFee: "0 BDT",
+    limit: "10 - 12,000 BDT",
     icon: "/assets/images/skrill.svg",
     link: "/withdraw",
     accent: "pink" as const,
@@ -84,8 +84,8 @@ const withdrawMethods = [
     isActive: false,
     processingTime: "Instant - 1 day",
     fee: "0%",
-    additionalFee: "0 USDT",
-    limit: "10 - 12,000 USDT",
+    additionalFee: "0 BDT",
+    limit: "10 - 12,000 BDT",
     icon: "/assets/images/stickPay.svg",
     link: "/withdraw",
     accent: "blue" as const,
@@ -135,14 +135,14 @@ const Withdraw = () => {
       <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Main Balance"
-          value={`$${formatBalance(user?.m_balance || 0)}`}
-          description="Available USDT"
+          value={`BDT ${formatBalance(user?.m_balance || 0)}`}
+          description="Available BDT"
           icon={HiWallet}
           variant="green"
         />
         <NeonStatCard
           label="Total Withdrawn"
-          value={`$${formatBalance(wallet?.total_withdraw || 0)}`}
+          value={`BDT ${formatBalance(wallet?.total_withdraw || 0)}`}
           description="Lifetime payout"
           icon={HiBanknotes}
           variant="blue"

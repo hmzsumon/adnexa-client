@@ -78,14 +78,14 @@ const TasksReport = () => {
         />
         <NeonStatCard
           label="Task Value"
-          value={`$${summary.totalValue.toFixed(2)}`}
+          value={`BDT ${summary.totalValue.toFixed(2)}`}
           description="total value"
           icon={HiChartBar}
           variant="violet"
         />
         <NeonStatCard
           label="Earning"
-          value={`$${summary.totalEarning.toFixed(2)}`}
+          value={`BDT ${summary.totalEarning.toFixed(2)}`}
           description="total earned"
           icon={HiCurrencyDollar}
           variant="green"
@@ -138,7 +138,7 @@ const TasksReport = () => {
                     Task Value
                   </p>
                   <p className="mt-1 text-sm font-black text-cyan-300">
-                    ${Number(record?.tasks_value || 0).toFixed(4)}
+                    BDT {Number(record?.tasks_value || 0).toFixed(4)}
                   </p>
                 </div>
                 <div className="border-x border-white/10">
@@ -154,7 +154,7 @@ const TasksReport = () => {
                     Earning
                   </p>
                   <p className="mt-1 text-sm font-black text-emerald-300">
-                    ${Number(record?.total_earning || 0).toFixed(4)}
+                    BDT {Number(record?.total_earning || 0).toFixed(4)}
                   </p>
                 </div>
               </div>

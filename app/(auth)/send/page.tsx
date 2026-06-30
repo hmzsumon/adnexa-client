@@ -72,7 +72,7 @@ const SendMoney = () => {
     setAmount(value);
     setIsVerify(false);
 
-    if (numericValue < 10) setAmountError("Minimum amount is 10 USDT");
+    if (numericValue < 10) setAmountError("Minimum amount is 10 BDT");
     if (numericValue > Number(user?.m_balance || 0))
       setAmountError("Amount is greater than your balance");
   };
@@ -129,7 +129,7 @@ const SendMoney = () => {
     <div className="space-y-6 text-white">
       {/* ────────── Page Header ────────── */}
       <PageHeader
-        title="Send USDT"
+        title="Send BDT"
         subtitle="Transfer balance to another user"
         back
       />
@@ -146,7 +146,7 @@ const SendMoney = () => {
               Send Funds
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Enter partner ID, verify recipient, then securely transfer USDT
+              Enter partner ID, verify recipient, then securely transfer BDT
               from your main wallet.
             </p>
           </div>
@@ -160,7 +160,7 @@ const SendMoney = () => {
       <section className="grid grid-cols-3 gap-3">
         <NeonStatCard
           label="Balance"
-          value={`$${Number(user?.m_balance || 0).toFixed(2)}`}
+          value={`BDT ${Number(user?.m_balance || 0).toFixed(2)}`}
           description="available"
           icon={HiWallet}
           variant="green"
@@ -174,7 +174,7 @@ const SendMoney = () => {
         />
         <NeonStatCard
           label="Receive"
-          value={`$${receiveAmount.toFixed(2)}`}
+          value={`BDT ${receiveAmount.toFixed(2)}`}
           description="after fee"
           icon={HiPaperAirplane}
           variant="violet"
@@ -228,8 +228,8 @@ const SendMoney = () => {
               />
             </div>
             <p className="mt-2 text-xs font-bold text-emerald-300">
-              Fee: {fee.toFixed(2)} USDT · Recipient receives:{" "}
-              {receiveAmount.toFixed(2)} USDT
+              Fee: {fee.toFixed(2)} BDT · Recipient receives:{" "}
+              {receiveAmount.toFixed(2)} BDT
             </p>
             {amountError && (
               <p className="mt-2 text-sm font-black text-red-300">
@@ -262,7 +262,7 @@ const SendMoney = () => {
           <div className="mt-4 grid grid-cols-3 gap-2 rounded-[22px] border border-white/10 bg-white/[.035] p-3 text-center">
             <div>
               <p className="text-[11px] text-slate-500">Amount</p>
-              <p className="font-black">${amount || 0}</p>
+              <p className="font-black">BDT {amount || 0}</p>
             </div>
             <div className="border-x border-white/10">
               <p className="text-[11px] text-slate-500">Charge</p>

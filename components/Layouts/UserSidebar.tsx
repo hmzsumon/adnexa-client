@@ -56,7 +56,7 @@ const menuGroups = [
         accent: "text-sky-300",
       },
       // {
-      //   label: "Send USDT",
+      //   label: "Send BDT",
       //   href: "/send",
       //   icon: HiPaperAirplane,
       //   accent: "text-fuchsia-300",
@@ -187,13 +187,13 @@ const UserSidebar = ({ handleClose }: { handleClose?: () => void }) => {
             <div>
               <p className="text-xs text-slate-400">Total Balance</p>
               <p className="text-lg font-black text-emerald-300">
-                ${formatBalance(user?.m_balance || 0)}
+                BDT {formatBalance(user?.m_balance || 0)}
               </p>
             </div>
             <div>
               <p className="text-xs text-slate-400">Game Balance</p>
               <p className="text-lg font-black text-violet-300">
-                ${formatBalance(user?.g_balance || 0)}
+                BDT {formatBalance(user?.g_balance || 0)}
               </p>
             </div>
           </div>

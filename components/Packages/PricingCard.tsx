@@ -74,7 +74,7 @@ const PricingCard = ({ pac, index = 0 }: any) => {
             </span>
           </div>
           <p className={`text-2xl font-black tracking-tight ${variant.price}`}>
-            ${Number(pac?.price || 0).toLocaleString()}
+            BDT {Number(pac?.price || 0).toLocaleString()}
           </p>
           <p className="mt-1 text-[0.6rem] text-slate-400">
             Invest smartly and earn daily returns
@@ -94,14 +94,14 @@ const PricingCard = ({ pac, index = 0 }: any) => {
       <div className="mt-5 grid grid-cols-3 gap-2 border-t border-white/10 pt-4">
         <div className="text-center">
           <HiCalendarDays className={`mx-auto mb-1 text-xl ${variant.price}`} />
-          <p className="text-[11px] text-slate-500">Daily Return</p>
+          <p className="text-[11px] text-slate-300">Daily Return</p>
           <p className={`text-base font-black ${variant.price}`}>
-            {pac?.return_percent || pac?.daily_return || 0}%
+            {Number(pac?.daily_return || 0).toLocaleString()} BDT
           </p>
         </div>
         <div className="border-x border-white/10 text-center">
           <HiClock className={`mx-auto mb-1 text-xl ${variant.price}`} />
-          <p className="text-[11px] text-slate-500">Duration</p>
+          <p className="text-[11px] text-slate-300">Duration</p>
           <p className="text-base font-black text-white">
             {pac?.duration || 0} days
           </p>
@@ -110,9 +110,9 @@ const PricingCard = ({ pac, index = 0 }: any) => {
           <HiArrowTrendingUp
             className={`mx-auto mb-1 text-xl ${variant.price}`}
           />
-          <p className="text-[11px] text-slate-500">Total Return</p>
+          <p className="text-[11px] text-slate-300">Total Return</p>
           <p className={`text-base font-black ${variant.price}`}>
-            {totalReturn}%
+            {Number(totalReturn || 0).toLocaleString()} BDT
           </p>
         </div>
       </div>

@@ -50,19 +50,19 @@ const MyPackageCard: React.FC<MyPackageCardProps> = ({ pac }) => {
       <div className="mt-5 rounded-2xl border border-white/10 bg-white/[.04] p-4">
         <p className="text-sm font-semibold text-slate-400">Package Price</p>
         <h4 className="mt-1 text-4xl font-black text-emerald-300">
-          ${formatBalance(pac?.price || pac?.p_price || 0)}
+          BDT {formatBalance(pac?.price || pac?.p_price || 0)}
         </h4>
         <div className="mt-4 grid grid-cols-2 gap-3">
           <div className="rounded-2xl bg-emerald-400/10 p-3">
             <p className="text-xs text-slate-400">Daily Return</p>
             <p className="mt-1 font-black text-emerald-300">
-              {formatBalance(pac?.daily_return || 0)} USDT
+              {formatBalance(pac?.daily_return || 0)} BDT
             </p>
           </div>
           <div className="rounded-2xl bg-violet-400/10 p-3">
             <p className="text-xs text-slate-400">Total Return</p>
             <p className="mt-1 font-black text-violet-300">
-              ${formatBalance(pac?.total_return || 0)}
+              BDT {formatBalance(pac?.total_return || 0)}
             </p>
           </div>
         </div>
@@ -79,7 +79,7 @@ const MyPackageCard: React.FC<MyPackageCardProps> = ({ pac }) => {
           <HiArrowTrendingUp className="mb-2 text-2xl text-cyan-300" />
           <p className="text-xs text-slate-400">Tasks Value</p>
           <p className="mt-1 font-black text-white">
-            {formatBalance(pac?.tasks_value || 0)} USDT
+            {formatBalance(pac?.tasks_value || 0)} BDT
           </p>
         </div>
         <div className="adnexa-glass-card rounded-[22px] p-3">

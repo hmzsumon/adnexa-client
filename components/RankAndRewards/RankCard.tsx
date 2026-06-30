@@ -47,7 +47,7 @@ const RankCard = ({ item }: any) => {
         <div>
           <FaCoins className="mx-auto mb-1 text-lg text-amber-300" />
           <p className="text-[11px] text-slate-500">Reward</p>
-          <p className="mt-1 font-black text-amber-300">${item?.salary}</p>
+          <p className="mt-1 font-black text-amber-300">BDT {item?.salary}</p>
         </div>
       </div>
     </article>

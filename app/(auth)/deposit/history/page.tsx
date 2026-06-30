@@ -75,8 +75,8 @@ const DepositHistory = () => {
         />
         <NeonStatCard
           label="Amount"
-          value={`$${formatBalance(totalDeposit)}`}
-          description="total USDT"
+          value={`BDT ${formatBalance(totalDeposit)}`}
+          description="total BDT"
           icon={SiBinance as any}
           variant="violet"
         />
@@ -117,7 +117,7 @@ const DepositHistory = () => {
                       <SiBinance className="text-2xl" />
                     </div>
                     <div>
-                      <h3 className="font-black text-white">Deposit USDT</h3>
+                      <h3 className="font-black text-white">Deposit BDT</h3>
                       <p className="text-xs font-bold text-slate-400">
                         {formDateWithDayMonthTime(deposit?.createdAt)}
                       </p>
@@ -137,7 +137,7 @@ const DepositHistory = () => {
                       Amount
                     </p>
                     <p className="mt-1 text-lg font-black text-emerald-300">
-                      ${formatBalance(deposit?.amount || 0)}
+                      BDT {formatBalance(deposit?.amount || 0)}
                     </p>
                   </div>
                   <div className="rounded-[20px] border border-white/10 bg-white/[.035] p-3">

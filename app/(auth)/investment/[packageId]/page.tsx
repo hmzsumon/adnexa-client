@@ -289,18 +289,18 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
                   Plan Price
                 </p>
                 <h3 className="mt-2 text-xl font-black text-emerald-300">
-                  ${formatAmount(selectedPackage.price)}
+                  BDT {formatAmount(selectedPackage.price)}
                 </h3>
-                <p className="text-xs font-bold text-slate-500">USDT</p>
+                <p className="text-xs font-bold text-slate-500">BDT</p>
               </div>
               <div className="pl-4">
                 <p className="text-[0.6rem] font-black uppercase tracking-[0.18em] text-slate-500">
                   Your Balance
                 </p>
                 <h3 className="mt-2 text-xl font-black text-violet-300">
-                  ${formatAmount(user?.m_balance)}
+                  BDT {formatAmount(user?.m_balance)}
                 </h3>
-                <p className="text-[0.6rem] font-bold text-slate-500">USDT</p>
+                <p className="text-[0.6rem] font-bold text-slate-500">BDT</p>
               </div>
             </div>
           </div>
@@ -314,7 +314,7 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
         <div className="grid grid-cols-2 gap-2">
           <DetailCard
             title="Daily Return"
-            value={`$${formatAmount(selectedPackage.daily_return)}`}
+            value={`BDT ${formatAmount(selectedPackage.daily_return)}`}
             subtitle="Earn every day"
             icon={HiBanknotes}
             accent="border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
@@ -335,7 +335,7 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
           />
           <DetailCard
             title="Total Return"
-            value={`$${formatAmount(selectedPackage.total_return)}`}
+            value={`BDT ${formatAmount(selectedPackage.total_return)}`}
             subtitle="Expected return"
             icon={HiChartBar}
             accent="border-amber-400/20 bg-amber-400/10 text-amber-300"
@@ -362,7 +362,7 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
             <p className="mt-2 text-sm font-semibold leading-6 text-slate-400">
               Each task value is{" "}
               <span className="font-black text-emerald-300">
-                ${formatAmount(selectedPackage.tasks_value)} USDT
+                ${formatAmount(selectedPackage.tasks_value)} BDT
               </span>
               . Complete your daily tasks to keep earning consistently.
             </p>

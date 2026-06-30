@@ -54,7 +54,7 @@ const PartnerProgram = () => {
       <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Level Earning"
-          value={`$${formatBalance(wallet?.total_level_earning || 0)}`}
+          value={`BDT ${formatBalance(wallet?.total_level_earning || 0)}`}
           description="Referral income"
           icon={HiWallet}
           variant="amber"

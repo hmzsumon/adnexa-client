@@ -27,9 +27,7 @@ const SalesCondition = () => {
             <p className="text-sm font-black uppercase tracking-[0.2em] text-amber-300/90">
               Important Notice
             </p>
-            <h2 className="mt-2 text-4xl font-black tracking-tight">
-              300 USDT
-            </h2>
+            <h2 className="mt-2 text-4xl font-black tracking-tight">300 BDT</h2>
             <p className="mt-2 text-sm leading-6 text-slate-400">
               Existing users are required to contribute a minimum sales volume
               to their team.
@@ -49,7 +47,7 @@ const SalesCondition = () => {
             <h3 className="text-xl font-black">Minimum Team Sales</h3>
             <p className="mt-2 text-sm leading-6 text-slate-400">
               Each existing user must contribute a minimum of{" "}
-              <span className="font-black text-amber-300">300 USDT</span> in
+              <span className="font-black text-amber-300">300 BDT</span> in
               sales to their respective teams.
             </p>
           </div>

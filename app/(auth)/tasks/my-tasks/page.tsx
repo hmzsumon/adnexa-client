@@ -246,8 +246,8 @@ export default function MyTasksPage() {
       <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Balance"
-          value={`$${Number(user?.m_balance || 0).toFixed(2)}`}
-          description="USDT"
+          value={`BDT ${Number(user?.m_balance || 0).toFixed(2)}`}
+          description="BDT"
           icon={HiCurrencyDollar}
           variant="green"
         />

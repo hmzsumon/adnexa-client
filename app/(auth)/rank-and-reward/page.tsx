@@ -36,7 +36,7 @@ const RankAndReward = () => {
       {
         id: 1,
         title: "Gold",
-        deposit: "Over $5,000 team deposit.",
+        deposit: "Over BDT 5,000 team deposit.",
         salary: 200,
         icon: <SilverIcon width={45} height={45} />,
         target: 5000,
@@ -47,7 +47,7 @@ const RankAndReward = () => {
       {
         id: 2,
         title: "Platinum",
-        deposit: "Over $10,000 team deposit.",
+        deposit: "Over BDT 10,000 team deposit.",
         salary: 500,
         icon: <BronzeIcon width={50} height={50} />,
         target: 10000,
@@ -58,7 +58,7 @@ const RankAndReward = () => {
       {
         id: 3,
         title: "Diamond",
-        deposit: "Over $20,000 team deposit.",
+        deposit: "Over BDT 20,000 team deposit.",
         salary: 2000,
         icon: <GoldIcon width={50} height={50} />,
         target: 20000,
@@ -69,7 +69,7 @@ const RankAndReward = () => {
       {
         id: 4,
         title: "Ambassador",
-        deposit: "Over $50,000 team deposit.",
+        deposit: "Over BDT 50,000 team deposit.",
         salary: 5000,
         icon: <RubyIcon width={50} height={50} />,
         target: 50000,
@@ -80,7 +80,7 @@ const RankAndReward = () => {
       {
         id: 5,
         title: "Crown Ambassador",
-        deposit: "Over $100,000 team deposit.",
+        deposit: "Over BDT 100,000 team deposit.",
         salary: 10000,
         icon: <RoyaltyIcon width={50} height={50} />,
         target: 100000,

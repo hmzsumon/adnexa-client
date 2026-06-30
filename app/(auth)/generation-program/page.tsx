@@ -47,14 +47,14 @@ const GenerationProgram = () => {
       <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Current Bonus"
-          value={`$${formatBalance(wallet?.current_generation_earning || 0)}`}
+          value={`BDT ${formatBalance(wallet?.current_generation_earning || 0)}`}
           description="Available generation earning"
           icon={HiWallet}
           variant="teal"
         />
         <NeonStatCard
           label="Total Bonus"
-          value={`$${formatBalance(wallet?.generation_bonus || 0)}`}
+          value={`BDT ${formatBalance(wallet?.generation_bonus || 0)}`}
           description="Lifetime generation bonus"
           icon={HiChartBar}
           variant="violet"

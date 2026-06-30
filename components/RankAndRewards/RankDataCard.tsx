@@ -42,7 +42,7 @@ const RankDataCard = ({ rankData, rank }: any) => {
           <HiChartBar className="mx-auto mb-2 text-xl text-emerald-300" />
           <p className="text-[11px] text-slate-500">Sales</p>
           <p className="mt-1 font-black text-white">
-            ${formatBalance(rankData?.salesValue || 0)}
+            BDT {formatBalance(rankData?.salesValue || 0)}
           </p>
         </div>
       </div>

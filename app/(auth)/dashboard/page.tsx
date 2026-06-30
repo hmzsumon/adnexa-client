@@ -80,9 +80,9 @@ const Dashboard = () => {
             </div>
             <p className="text-sm text-slate-300">Main Balance</p>
             <h3 className="mt-1 text-2xl font-black text-emerald-300">
-              ${formatBalance(user?.m_balance || 0)}
+              BDT {formatBalance(user?.m_balance || 0)}
             </h3>
-            <p className="text-xs font-semibold text-slate-500">USDT</p>
+            <p className="text-xs font-semibold text-slate-500">BDT</p>
           </div>
           <div className="p-4">
             <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-500/20 text-violet-300">
@@ -90,9 +90,9 @@ const Dashboard = () => {
             </div>
             <p className="text-sm text-slate-300">Game Balance</p>
             <h3 className="mt-1 text-2xl font-black text-violet-300">
-              ${formatBalance(user?.g_balance || 0)}
+              BDT {formatBalance(user?.g_balance || 0)}
             </h3>
-            <p className="text-xs font-semibold text-slate-500">USDT</p>
+            <p className="text-xs font-semibold text-slate-500">BDT</p>
           </div>
         </div>
       </section>
@@ -135,28 +135,28 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 gap-3">
           <MetricCard
             title="Total Investment"
-            value={`$${formatBalance(dashboardData?.total_investment || 0)}`}
+            value={`BDT ${formatBalance(dashboardData?.total_investment || 0)}`}
             trend="12.4%"
             icon={HiWallet}
             variant="green"
           />
           <MetricCard
             title="Total Earned"
-            value={`$${formatBalance(dashboardData?.total_earning || 0)}`}
+            value={`BDT ${formatBalance(dashboardData?.total_earning || 0)}`}
             trend="8.7%"
             icon={HiGift}
             variant="orange"
           />
           <MetricCard
             title="Total Withdrawn"
-            value={`$${formatBalance(dashboardData?.total_withdraw || 0)}`}
+            value={`BDT ${formatBalance(dashboardData?.total_withdraw || 0)}`}
             trend="4.2%"
             icon={HiArrowUpTray}
             variant="blue"
           />
           <MetricCard
             title="Referral Earn"
-            value={`$${formatBalance(dashboardData?.total_referral_earning || 0)}`}
+            value={`BDT ${formatBalance(dashboardData?.total_referral_earning || 0)}`}
             trend="6.3%"
             icon={HiHeart}
             variant="purple"

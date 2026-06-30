@@ -31,7 +31,7 @@ const Wallet = () => {
   const quickActions = [
     {
       title: "Deposit",
-      subtitle: "Add USDT",
+      subtitle: "Add BDT",
       href: "/deposit",
       icon: HiArrowDownTray,
       accent: "text-teal-300 bg-teal-400/10 border-teal-400/20",
@@ -71,10 +71,10 @@ const Wallet = () => {
                 Main Wallet
               </p>
               <h2 className="mt-2 text-4xl font-black tracking-tight">
-                ${formatBalance(user?.m_balance || 0)}
+                BDT {formatBalance(user?.m_balance || 0)}
               </h2>
               <p className="mt-1 text-sm font-bold text-slate-400">
-                Available USDT balance
+                Available BDT balance
               </p>
             </div>
             <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] border border-emerald-400/25 bg-emerald-400/12 text-emerald-300">
@@ -100,28 +100,28 @@ const Wallet = () => {
       <section className="grid grid-cols-2 gap-3">
         <NeonStatCard
           label="Total Deposit"
-          value={`$${formatBalance(wallet?.total_deposit || 0)}`}
+          value={`BDT ${formatBalance(wallet?.total_deposit || 0)}`}
           description="lifetime added"
           icon={HiBanknotes}
           variant="teal"
         />
         <NeonStatCard
           label="Total Withdraw"
-          value={`$${formatBalance(wallet?.total_withdraw || 0)}`}
+          value={`BDT ${formatBalance(wallet?.total_withdraw || 0)}`}
           description="lifetime cashout"
           icon={HiArrowUpTray}
           variant="pink"
         />
         <NeonStatCard
           label="Investment"
-          value={`$${formatBalance(wallet?.total_investment || 0)}`}
+          value={`BDT ${formatBalance(wallet?.total_investment || 0)}`}
           description="total invested"
           icon={HiCurrencyDollar}
           variant="violet"
         />
         <NeonStatCard
           label="Earning"
-          value={`$${formatBalance(wallet?.total_earing || wallet?.total_earning || 0)}`}
+          value={`BDT ${formatBalance(wallet?.total_earing || wallet?.total_earning || 0)}`}
           description="total earned"
           icon={HiShieldCheck}
           variant="green"

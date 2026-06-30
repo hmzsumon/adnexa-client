@@ -74,8 +74,8 @@ const WithdrawHistory = () => {
         />
         <NeonStatCard
           label="Amount"
-          value={`$${formatBalance(totalWithdraw)}`}
-          description="total USDT"
+          value={`BDT ${formatBalance(totalWithdraw)}`}
+          description="total BDT"
           icon={HiArrowUpTray}
           variant="pink"
         />
@@ -118,7 +118,7 @@ const WithdrawHistory = () => {
                       <HiArrowUpTray className="text-2xl" />
                     </div>
                     <div>
-                      <h3 className="font-black text-white">Withdraw USDT</h3>
+                      <h3 className="font-black text-white">Withdraw BDT</h3>
                       <p className="text-xs font-bold text-slate-400">
                         {formDateWithDayMonthTime(withdraw?.createdAt)}
                       </p>
@@ -138,7 +138,7 @@ const WithdrawHistory = () => {
                       Amount
                     </p>
                     <p className="mt-1 text-lg font-black text-blue-300">
-                      ${formatBalance(withdraw?.amount || 0)}
+                      BDT {formatBalance(withdraw?.amount || 0)}
                     </p>
                   </div>
                   <div className="rounded-[20px] border border-white/10 bg-white/[.035] p-3">
