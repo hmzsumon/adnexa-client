@@ -26,6 +26,7 @@ const Dashboard = () => {
   const { user } = useSelector((state: any) => state.auth);
   const { data } = useGetDashboardQuery(undefined);
   const { dashboardData } = data || {};
+  console.log("Dashboard Data:", dashboardData);
 
   const userName = user?.name || "Adnexa User";
 
@@ -74,25 +75,23 @@ const Dashboard = () => {
 
         {/* ────────── Balance Summary Panel ────────── */}
         <div className="relative z-10 mt-7 grid grid-cols-2 overflow-hidden rounded-xl border border-white/10 bg-white/[.045] backdrop-blur-xl">
-          <div className="border-r border-white/10 p-4">
+          <div className="border-r border-white/10 px-2 py-4">
             <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-400/15 text-cyan-300">
               <HiWallet className="text-2xl" />
             </div>
-            <p className="text-sm text-slate-300">Main Balance</p>
-            <h3 className="mt-1 text-2xl font-black text-emerald-300">
+            <p className="text-xs text-slate-300">Main Balance</p>
+            <h3 className="mt-1 text-sm font-black text-emerald-300">
               BDT {formatBalance(user?.m_balance || 0)}
             </h3>
-            <p className="text-xs font-semibold text-slate-500">BDT</p>
           </div>
           <div className="p-4">
             <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-500/20 text-violet-300">
               <HiArrowTrendingUp className="text-2xl" />
             </div>
-            <p className="text-sm text-slate-300">Game Balance</p>
-            <h3 className="mt-1 text-2xl font-black text-violet-300">
-              BDT {formatBalance(user?.g_balance || 0)}
+            <p className="text-xs text-slate-300">Total Profit</p>
+            <h3 className="mt-1 text-sm font-black text-violet-300">
+              BDT {formatBalance(dashboardData?.total_return || 0)}
             </h3>
-            <p className="text-xs font-semibold text-slate-500">BDT</p>
           </div>
         </div>
       </section>

@@ -43,7 +43,7 @@ const depositMethods = [
     processingTime: "Instant - 30 min",
     fee: "0%",
     limit: "10 - 3000000 BDT",
-    link: "/deposit/binance-pay",
+    link: "/deposit/bkash-pay",
     accent: "pink" as const,
   },
   {
@@ -56,7 +56,7 @@ const depositMethods = [
     processingTime: "Instant - 30 min",
     fee: "0%",
     limit: "10 - 300000 BDT",
-    link: "/deposit/binance-pay",
+    link: "/deposit/nagad-pay",
     accent: "pink" as const,
   },
 

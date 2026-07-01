@@ -6,6 +6,8 @@ import PageHeader from "@/components/MobileApp/PageHeader";
 import SectionTitle from "@/components/MobileApp/SectionTitle";
 import { formDateWithDayMonthTime, formatBalance } from "@/lib/functions";
 import { useGetMyDepositsQuery } from "@/redux/features/deposit/depositApi";
+import Image from "next/image";
+import Link from "next/link";
 import {
   HiArrowDownTray,
   HiBanknotes,
@@ -26,6 +28,45 @@ const DepositHistory = () => {
   const completedDeposit = deposits.filter(
     (item: any) => item?.is_approved || item?.status === "approved",
   ).length;
+
+  // ────────── Safe Method Name Formatter ──────────
+  const getMethodName = (deposit: any) => {
+    if (typeof deposit?.method === "string") return deposit.method;
+    return (
+      deposit?.methodTitle ||
+      deposit?.method?.title ||
+      deposit?.methodName ||
+      deposit?.method?.methodName ||
+      "Binance"
+    );
+  };
+
+  // ────────── Method Icon Formatter ──────────
+  const getMethodIcon = (deposit: any) => {
+    const methodName = String(getMethodName(deposit) || "").toLowerCase();
+
+    if (methodName.includes("bkash") || methodName.includes("bikash")) {
+      return "/images/deposit/bkash.svg";
+    }
+
+    if (methodName.includes("nagad")) {
+      return "/images/deposit/nagad.svg";
+    }
+
+    if (methodName.includes("rocket") || methodName.includes("roket")) {
+      return "/images/deposit/roket.png";
+    }
+
+    if (
+      methodName.includes("usdt") ||
+      methodName.includes("tether") ||
+      methodName.includes("trc20")
+    ) {
+      return "/images/deposit/usdt-trc20.svg";
+    }
+
+    return "/images/deposit/binance.svg";
+  };
 
   return (
     <div className="space-y-6 text-white">
@@ -48,7 +89,8 @@ const DepositHistory = () => {
               Deposits
             </h2>
             <p className="mt-2 text-[0.6rem] leading-6 text-slate-400">
-              See all Binance and wallet funding records in one clean view.
+              See all mobile banking and wallet funding records in one clean
+              view.
             </p>
           </div>
           <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-teal-400/25 bg-teal-400/12 text-teal-300">
@@ -97,6 +139,7 @@ const DepositHistory = () => {
         <section className="space-y-4">
           <SectionTitle subtitle="History" title="Latest Deposits" />
           {deposits.map((deposit: any) => {
+            const methodIcon = getMethodIcon(deposit);
             const status =
               deposit?.is_approved || deposit?.status === "approved"
                 ? "Completed"
@@ -113,8 +156,14 @@ const DepositHistory = () => {
                 {/* ────────── Deposit Card Header ────────── */}
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-400/20 bg-amber-400/10 text-amber-300">
-                      <SiBinance className="text-2xl" />
+                    <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-amber-400/20 bg-amber-400/10 p-2 text-amber-300">
+                      <Image
+                        src={methodIcon}
+                        alt={getMethodName(deposit)}
+                        width={34}
+                        height={34}
+                        className="h-8 w-8 object-contain"
+                      />
                     </div>
                     <div>
                       <h3 className="font-black text-white">Deposit BDT</h3>
@@ -145,7 +194,7 @@ const DepositHistory = () => {
                       Method
                     </p>
                     <p className="mt-1 text-sm font-black text-white">
-                      {deposit?.method || "Binance"}
+                      {getMethodName(deposit)}
                     </p>
                   </div>
                 </div>
@@ -154,9 +203,22 @@ const DepositHistory = () => {
                     <HiClipboardDocument /> TXID / Order ID
                   </p>
                   <p className="break-all text-xs font-bold text-slate-300">
-                    {deposit?.txId || deposit?.sourceAddress || deposit?._id}
+                    {deposit?.transactionId ||
+                      deposit?.txId ||
+                      deposit?.sourceAddress ||
+                      deposit?._id}
                   </p>
                 </div>
+
+                {/* ────────── Pending Retry Link ────────── */}
+                {deposit?.status === "pending" && (
+                  <Link
+                    href={`/deposit/status?id=${deposit?._id}`}
+                    className="mt-3 block rounded-[18px] border border-cyan-300/20 bg-cyan-400/10 px-4 py-3 text-center text-xs font-black uppercase tracking-[0.16em] text-cyan-100"
+                  >
+                    Check / Retry Auto Approval
+                  </Link>
+                )}
               </article>
             );
           })}

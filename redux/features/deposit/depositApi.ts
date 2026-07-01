@@ -29,6 +29,38 @@ export const depositApi = apiSlice.injectEndpoints({
       query: () => "/deposit-method/active",
     }),
 
+    // get active mobile banking deposit payment methods
+    getActiveDepositPaymentMethods: builder.query<any, string | void>({
+      query: (methodName) => ({
+        url: "/deposit-payment-method/active",
+        params: methodName ? { methodName } : undefined,
+      }),
+      providesTags: ["Deposits"],
+    }),
+
+    // create mobile banking deposit
+    createMobileBankingDeposit: builder.mutation<any, any>({
+      query: (body) => ({
+        url: "/mobile-banking/deposit",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Deposits", "User", "Wallet", "Transactions"],
+    }),
+
+    // retry mobile banking deposit auto approve
+    retryMobileBankingDeposit: builder.mutation<
+      any,
+      { id: string; transactionId?: string }
+    >({
+      query: ({ id, transactionId }) => ({
+        url: `/mobile-banking/deposit/${id}/retry`,
+        method: "POST",
+        body: transactionId ? { transactionId } : {},
+      }),
+      invalidatesTags: ["Deposits", "User", "Wallet", "Transactions"],
+    }),
+
     // deposit with binance
     depositWithBinance: builder.mutation<any, any>({
       query: (body) => ({
@@ -46,5 +78,8 @@ export const {
   useGetMyDepositsQuery,
   useGetDepositQuery,
   useGetActiveDepositMethodQuery,
+  useGetActiveDepositPaymentMethodsQuery,
+  useCreateMobileBankingDepositMutation,
+  useRetryMobileBankingDepositMutation,
   useDepositWithBinanceMutation,
 } = depositApi;

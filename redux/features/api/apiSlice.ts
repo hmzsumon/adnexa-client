@@ -30,6 +30,7 @@ export const apiSlice = createApi({
     "MyWithdraws",
     "Mining",
     "Deposits",
+    "DepositPaymentMethods",
     "Notification",
     "Notifications",
     "Package",

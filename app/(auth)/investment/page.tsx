@@ -1,6 +1,9 @@
 "use client";
 import PricingCard from "@/components/Packages/PricingCard";
-import { useGetAllPackagesQuery } from "@/redux/features/package/packageApi";
+import {
+  useGetAllPackagesQuery,
+  useGetUserPackagesQuery,
+} from "@/redux/features/package/packageApi";
 import { Spinner } from "flowbite-react";
 import { useSelector } from "react-redux";
 
@@ -18,10 +21,18 @@ import { Package } from "@/types/types";
 const Investment = () => {
   const { data, error, isLoading, isSuccess, isError } =
     useGetAllPackagesQuery(undefined);
+  const { data: userPackageData } = useGetUserPackagesQuery(undefined);
 
   const { user } = useSelector((state: any) => state.auth);
 
   const { packages } = data || { packages: [] };
+  const activePackage = (userPackageData?.userPackages || [])
+    .filter((item: any) => item?.is_active && !item?.is_expired)
+    .sort(
+      (a: any, b: any) =>
+        Number(b?.package_no || 0) - Number(a?.package_no || 0),
+    )?.[0];
+  const activePackageNo = Number(activePackage?.package_no || 0);
 
   return (
     <>
@@ -37,7 +48,11 @@ const Investment = () => {
           <div className=" ">
             <div className="grid gap-6 grid-cols-1  ">
               {packages.map((p: Package) => (
-                <PricingCard pac={p} key={p._id} />
+                <PricingCard
+                  pac={p}
+                  key={p._id}
+                  activePackageNo={activePackageNo}
+                />
               ))}
             </div>
           </div>

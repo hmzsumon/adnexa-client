@@ -6,6 +6,7 @@ import SectionTitle from "@/components/MobileApp/SectionTitle";
 import {
   useCreatePackageMutation,
   useGetPackageByIdQuery,
+  useGetUserPackagesQuery,
 } from "@/redux/features/package/packageApi";
 import { fetchBaseQueryError } from "@/redux/services/helpers";
 import { Package } from "@/types/types";
@@ -123,6 +124,7 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
 
   const { data, isLoading, isError, isSuccess, error } =
     useGetPackageByIdQuery(packageId);
+  const { data: userPackageData } = useGetUserPackagesQuery(undefined);
 
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
 
@@ -136,6 +138,18 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
   const userMainBalance = Number(user?.m_balance || 0);
   const packagePrice = Number(selectedPackage?.price || 0);
   const hasEnoughBalance = userMainBalance >= packagePrice;
+  const activePackage = (userPackageData?.userPackages || [])
+    .filter((item: any) => item?.is_active && !item?.is_expired)
+    .sort(
+      (a: any, b: any) =>
+        Number(b?.package_no || 0) - Number(a?.package_no || 0),
+    )?.[0];
+  const activePackageNo = Number(activePackage?.package_no || 0);
+  const selectedPackageNo = Number((selectedPackage as any)?.package_no || 0);
+  const isUpgrade = activePackageNo > 0 && selectedPackageNo > activePackageNo;
+  const isCurrentOrLower =
+    activePackageNo > 0 && selectedPackageNo <= activePackageNo;
+  const actionLabel = isUpgrade ? "Confirm Upgrade" : "Activate Now";
 
   const [
     createPackage,
@@ -146,6 +160,8 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
       error: createError,
     },
   ] = useCreatePackageMutation();
+
+  const canActivate = hasEnoughBalance && !isCurrentOrLower && !isCreating;
 
   // ────────── Package Fetch Status Handler ──────────
   useEffect(() => {
@@ -163,7 +179,7 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
 
   // ────────── Activate Package Handler ──────────
   const handleCreatePackage = async () => {
-    if (!selectedPackage?._id || isCreating) return;
+    if (!selectedPackage?._id || !canActivate) return;
 
     await createPackage({
       packageId: selectedPackage._id,
@@ -173,7 +189,11 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
   // ────────── Package Create Status Handler ──────────
   useEffect(() => {
     if (isCreateSuccess) {
-      toast.success("Package activated successfully");
+      toast.success(
+        isUpgrade
+          ? "Package upgraded successfully"
+          : "Package activated successfully",
+      );
       router.push("/investment/my-package");
     }
 
@@ -307,6 +327,17 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
         </div>
       </section>
 
+      {/* ────────── Activation Rule Notice ────────── */}
+      {(isCurrentOrLower || !hasEnoughBalance || isUpgrade) && (
+        <section className="rounded-2xl border border-amber-400/20 bg-amber-400/10 p-4 text-sm font-bold text-amber-100">
+          {isCurrentOrLower
+            ? "You cannot activate the same or a lower package. Only upgrade is allowed."
+            : !hasEnoughBalance
+              ? "You need the full package price in your Main Balance before activation."
+              : `You are upgrading from ${activePackage?.title}. Your previous package price will be refunded after successful upgrade.`}
+        </section>
+      )}
+
       {/* ────────── Plan Stats Section ────────── */}
       <section className="space-y-4">
         <SectionTitle subtitle="Overview" title="Plan Benefits" />
@@ -384,14 +415,18 @@ const PackageDetails = ({ params }: PackageDetailsProps) => {
           <button
             type="button"
             onClick={handleCreatePackage}
-            disabled={isCreating}
-            className={`flex min-h-[56px] flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r ${packageAccent.button} px-5 text-sm font-black text-white shadow-[0_18px_40px_rgba(34,211,238,0.2)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70`}
+            disabled={!canActivate}
+            className={`flex min-h-[56px] flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r ${packageAccent.button} px-5 text-sm font-black text-white shadow-[0_18px_40px_rgba(34,211,238,0.2)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-45`}
           >
             {isCreating ? (
               <PulseLoader color="#ffffff" size={8} margin={2} />
             ) : (
               <>
-                Activate Now
+                {isCurrentOrLower
+                  ? "Downgrade Not Allowed"
+                  : !hasEnoughBalance
+                    ? "Insufficient Balance"
+                    : actionLabel}
                 <HiArrowRight className="text-xl" />
               </>
             )}

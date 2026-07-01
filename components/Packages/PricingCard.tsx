@@ -45,10 +45,21 @@ const cardVariants = [
   },
 ];
 
-const PricingCard = ({ pac, index = 0 }: any) => {
+const PricingCard = ({ pac, index = 0, activePackageNo = 0 }: any) => {
   const variant = cardVariants[index % cardVariants.length];
   const Icon = variant.icon;
   const totalReturn = pac?.total_return || pac?.return_percent || 0;
+  const packageNo = Number(pac?.package_no || 0);
+  const isCurrent = activePackageNo > 0 && packageNo === activePackageNo;
+  const isLower = activePackageNo > 0 && packageNo < activePackageNo;
+  const isHigher = activePackageNo > 0 && packageNo > activePackageNo;
+  const actionLabel = isCurrent
+    ? "Active Package"
+    : isHigher
+      ? "Upgrade Now"
+      : activePackageNo > 0
+        ? "Unavailable"
+        : "Invest Now";
 
   return (
     <article
@@ -82,13 +93,23 @@ const PricingCard = ({ pac, index = 0 }: any) => {
         </div>
       </div>
 
-      {/* ────────── Invest Button ────────── */}
-      <Link
-        href={`/investment/${pac?._id}`}
-        className={`mt-5 flex w-full items-center justify-center rounded-xl bg-gradient-to-r px-5 py-4 text-base font-black text-white shadow-xl transition-all duration-300 hover:-translate-y-1 ${variant.button}`}
-      >
-        Invest Now
-      </Link>
+      {/* ────────── Invest / Upgrade Button ────────── */}
+      {isCurrent || isLower ? (
+        <button
+          type="button"
+          disabled
+          className="mt-5 flex w-full cursor-not-allowed items-center justify-center rounded-xl bg-slate-700/70 px-5 py-4 text-base font-black text-slate-300 opacity-70"
+        >
+          {actionLabel}
+        </button>
+      ) : (
+        <Link
+          href={`/investment/${pac?._id}`}
+          className={`mt-5 flex w-full items-center justify-center rounded-xl bg-gradient-to-r px-5 py-4 text-base font-black text-white shadow-xl transition-all duration-300 hover:-translate-y-1 ${variant.button}`}
+        >
+          {actionLabel}
+        </Link>
+      )}
 
       {/* ────────── Package Stats Row ────────── */}
       <div className="mt-5 grid grid-cols-3 gap-2 border-t border-white/10 pt-4">
