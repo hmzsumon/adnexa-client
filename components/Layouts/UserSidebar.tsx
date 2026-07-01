@@ -1,6 +1,7 @@
 "use client";
 
 import AppBrand from "@/components/MobileApp/AppBrand";
+import WhatsAppSupportButton from "@/components/Support/WhatsAppSupportButton";
 import { formatBalance } from "@/lib/functions";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -244,6 +245,11 @@ const UserSidebar = ({ handleClose }: { handleClose?: () => void }) => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* ────────── WhatsApp Support Card ────────── */}
+        <div className="mt-4">
+          <WhatsAppSupportButton compact />
         </div>
 
         {/* ────────── Invite Promo Card ────────── */}

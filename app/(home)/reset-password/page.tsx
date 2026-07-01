@@ -24,7 +24,9 @@ import { toast } from "react-toastify";
 const ResetPassword = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { email } = useSelector((state: any) => state.resetPass);
+  const { phone, resetToken, email } = useSelector(
+    (state: any) => state.resetPass,
+  );
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -53,28 +55,31 @@ const ResetPassword = () => {
 
   // ────────── Reset Access Guard ──────────
   useEffect(() => {
-    if (!email) router.push("/forgot-password");
-  }, [email, router]);
+    if (!phone && !resetToken && !email) {
+      router.replace("/forgot-password");
+    }
+  }, [phone, resetToken, email, router]);
 
-  // ────────── Reset Password Submit Handler ──────────
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // ────────── Submit Handler ──────────
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setPasswordError("");
 
-    if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
-      return;
-    }
-
     if (password !== confirmPassword) {
       setPasswordError("Password and confirm password do not match");
+      toast.error("Password and confirm password do not match");
       return;
     }
 
-    resetPassword({ email, password });
+    if (!canSubmit) {
+      setPasswordError("Please follow the password checklist");
+      return;
+    }
+
+    resetPassword({ password, phone, resetToken, email });
   };
 
-  // ────────── Reset Password Response Handler ──────────
+  // ────────── API Response Handler ──────────
   useEffect(() => {
     if (isSuccess) {
       toast.success("Password reset successfully");
@@ -82,8 +87,10 @@ const ResetPassword = () => {
       router.push("/login");
     }
 
-    if (isError) {
-      toast.error((error as fetchBaseQueryError).data?.message);
+    if (isError && error) {
+      toast.error(
+        (error as fetchBaseQueryError).data?.message || "Password reset failed",
+      );
     }
   }, [isSuccess, isError, error, dispatch, router]);
 
@@ -91,8 +98,8 @@ const ResetPassword = () => {
     <div className="adnexa-app-bg min-h-screen px-4 py-6">
       {/* ────────── Mobile Reset Password Shell ────────── */}
       <div className="relative mx-auto flex min-h-[calc(100vh-48px)] max-w-[460px] flex-col overflow-hidden rounded-[36px] border border-white/5 bg-[#05071c]/95 px-5 pb-8 pt-8 shadow-2xl shadow-black/60">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,rgba(124,58,237,.22),transparent_62%)]" />
-        <div className="pointer-events-none absolute -left-28 top-56 h-56 w-56 rounded-full bg-cyan-400/15 blur-3xl" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,rgba(34,211,238,.20),transparent_62%)]" />
+        <div className="pointer-events-none absolute -right-28 top-32 h-56 w-56 rounded-full bg-violet-500/20 blur-3xl" />
 
         {/* ────────── Top Back Button ────────── */}
         <div className="relative z-10 flex items-center justify-between">
@@ -108,7 +115,7 @@ const ResetPassword = () => {
             href="/login"
             className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm font-black text-cyan-300"
           >
-            Login
+            Sign In
           </Link>
         </div>
 
@@ -119,22 +126,18 @@ const ResetPassword = () => {
 
         {/* ────────── Header Copy ────────── */}
         <div className="relative z-10 mt-12">
-          <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs font-black text-cyan-300">
-            <HiShieldCheck className="text-base" /> Secure Reset
+          <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs font-black text-cyan-200">
+            <HiShieldCheck className="text-base" /> Verified Session
           </span>
           <h1 className="mt-4 text-4xl font-black tracking-tight text-white">
             Create new password
           </h1>
           <p className="mt-3 text-base leading-6 text-slate-400">
-            Set a new strong password for{" "}
-            <span className="font-black text-cyan-300">
-              {email || "your Adnexa account"}
-            </span>
-            .
+            Your mobile verification is successful. Set a strong new login
+            password.
           </p>
         </div>
 
-        {/* ────────── Reset Password Form ────────── */}
         <form className="relative z-10 mt-8 space-y-5" onSubmit={handleSubmit}>
           {/* ────────── New Password Input ────────── */}
           <div>
@@ -147,7 +150,7 @@ const ResetPassword = () => {
             <div
               className={`adnexa-input-wrap ${passwordError ? "border-red-400/70" : ""}`}
             >
-              <span className="adnexa-input-icon text-violet-300">
+              <span className="adnexa-input-icon text-cyan-300">
                 <HiLockClosed className="text-2xl" />
               </span>
               <input

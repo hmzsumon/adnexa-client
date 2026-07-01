@@ -199,6 +199,15 @@ export const authApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    // verify WhatsApp password reset code
+    verifyPasswordResetCode: builder.mutation<any, any>({
+      query: (body) => ({
+        url: `/verify-password-reset-code`,
+        method: "POST",
+        body,
+      }),
+    }),
+
     // reset password
     resetPassword: builder.mutation<any, any>({
       query: (body) => ({
@@ -286,6 +295,7 @@ export const {
   useCheckEmailExistOrNotMutation,
   useMyAddressQuery,
   useSecurityVerifyMutation,
+  useVerifyPasswordResetCodeMutation,
   useResetPasswordMutation,
   useMyWalletQuery,
   useGet3LevelTeamQuery,

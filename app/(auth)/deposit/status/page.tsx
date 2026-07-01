@@ -1,5 +1,7 @@
 "use client";
 
+import WhatsAppSupportButton from "@/components/Support/WhatsAppSupportButton";
+
 import EmptyState from "@/components/MobileApp/EmptyState";
 import PageHeader from "@/components/MobileApp/PageHeader";
 import SectionTitle from "@/components/MobileApp/SectionTitle";
@@ -249,6 +251,8 @@ const DepositStatusPage = () => {
           )}
         </section>
       )}
+      {/* ────────── WhatsApp Support ────────── */}
+      <WhatsAppSupportButton />
     </div>
   );
 };

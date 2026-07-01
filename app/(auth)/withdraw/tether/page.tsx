@@ -3,86 +3,62 @@
 import NeonStatCard from "@/components/MobileApp/NeonStatCard";
 import PageHeader from "@/components/MobileApp/PageHeader";
 import SectionTitle from "@/components/MobileApp/SectionTitle";
-import WithdrawSecurity from "@/components/Withdraw/WithdrawSecurity";
-import { useCreateWithdrawRequestMutation } from "@/redux/features/withdraw/withdrawApi";
+import WhatsAppSupportButton from "@/components/Support/WhatsAppSupportButton";
+import {
+  useCreateWithdrawRequestMutation,
+  useGetMyWithdrawPaymentMethodsQuery,
+} from "@/redux/features/withdraw/withdrawApi";
 import { fetchBaseQueryError } from "@/redux/services/helpers";
-import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import {
   HiArrowRight,
   HiArrowUpTray,
+  HiBanknotes,
   HiCurrencyDollar,
-  HiMapPin,
+  HiKey,
   HiShieldCheck,
   HiWallet,
 } from "react-icons/hi2";
-import { SiTether } from "react-icons/si";
 import { useSelector } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import { toast } from "react-toastify";
 
-const TetherUsdt = () => {
+const fixedAmounts = [300, 1500, 8000, 30000, 120000, 250000];
+
+const WithdrawRequestPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const requestType = searchParams.get("type") || "mobile";
   const { user } = useSelector((state: any) => state.auth);
+  const { data: methodData } = useGetMyWithdrawPaymentMethodsQuery(undefined);
   const [withdraw, { isLoading, isSuccess, isError, error }] =
     useCreateWithdrawRequestMutation();
 
   // ────────── Withdraw Form State ──────────
-  const [address, setAddress] = useState("");
-  const [amount, setAmount] = useState("");
-  const [availableAmount, setAvailable] = useState<number>(0);
-  const [receiveAmount, setReceiveAmount] = useState<number>(0);
-  const [errorText, setErrorText] = useState("");
-  const [openModal, setOpenModal] = useState(false);
-
-  // ────────── Available Balance Sync ──────────
-  useEffect(() => {
-    setAvailable(Number(user?.m_balance || 0));
-  }, [user]);
-
-  // ────────── Amount Calculation ──────────
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const numericValue = Number(value || 0);
-    setAmount(value);
-
-    if (numericValue < 15) {
-      setErrorText("Minimum amount is 15 USDT");
-      setReceiveAmount(0);
-      return;
-    }
-    if (numericValue > availableAmount) {
-      setErrorText("Insufficient balance");
-      setReceiveAmount(0);
-      return;
-    }
-
-    setErrorText("");
-    setReceiveAmount(numericValue - numericValue * 0.05);
-  };
+  const [amount, setAmount] = useState<number>(300);
+  const [password, setPassword] = useState("");
+  const selectedMethod = useMemo(
+    () =>
+      (methodData?.methods || []).find(
+        (item: any) => item.methodCategory === requestType,
+      ),
+    [methodData, requestType],
+  );
+  const charge = amount * 0.1;
+  const receiveAmount = amount - charge;
+  const insufficientBalance = Number(user?.m_balance || 0) < amount;
 
   // ────────── Submit Withdraw Request ──────────
   const handleSubmit = () => {
-    const data = {
-      amount,
-      net_amount: receiveAmount,
-      charge_p: 0.05,
-      charge_a: 0,
-      method: {
-        name: "Tether (USDT TRC20)",
-        network: "Tron (TRC20)",
-        address,
-      },
-    };
-    withdraw(data);
+    withdraw({ amount, password, paymentMethodId: selectedMethod?._id });
   };
 
   // ────────── API Response Message ──────────
   useEffect(() => {
     if (isSuccess) {
       toast.success("Withdraw request submitted successfully");
-      setAmount("");
-      setAddress("");
-      setReceiveAmount(0);
-      setErrorText("");
+      router.push("/withdraw/history");
     }
     if (isError) {
       toast.error(
@@ -90,17 +66,17 @@ const TetherUsdt = () => {
           "Withdraw request failed",
       );
     }
-  }, [isSuccess, isError, error]);
+  }, [isSuccess, isError, error, router]);
 
   const submitDisabled =
-    !!errorText || !amount || !address || user?.is_block || isLoading;
+    !selectedMethod || !password || insufficientBalance || isLoading;
 
   return (
     <div className="space-y-6 text-white">
       {/* ────────── Page Header ────────── */}
       <PageHeader
-        title="Withdraw USDT"
-        subtitle="Cash out through TRC20 network"
+        title="Withdraw Request"
+        subtitle="Confirm payout with login password"
         back
       />
 
@@ -110,14 +86,14 @@ const TetherUsdt = () => {
         <div className="relative z-10 flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.2em] text-blue-300/90">
-              TRC20 Cashout
+              Secure Cashout
             </p>
             <h2 className="mt-2 text-2xl font-black tracking-tight">
-              Withdraw
+              Withdraw BDT
             </h2>
-            <p className="mt-2 text-[0.6rem] leading-6 text-slate-400">
-              Enter your USDT TRC20 address and confirm the request with
-              security verification.
+            <p className="mt-2 text-[0.7rem] leading-6 text-slate-400">
+              Allowed fixed amounts only. 10% charge applies to every
+              withdrawal.
             </p>
           </div>
           <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] border border-blue-400/25 bg-blue-400/12 text-blue-300">
@@ -130,102 +106,90 @@ const TetherUsdt = () => {
       <section className="grid grid-cols-1 gap-3">
         <NeonStatCard
           label="Available"
-          value={`$${Number(availableAmount || 0).toFixed(2)}`}
-          description="USDT"
+          value={`BDT ${Number(user?.m_balance || 0).toLocaleString()}`}
+          description="Main balance"
           icon={HiWallet}
           variant="green"
         />
         <NeonStatCard
-          label="Fee"
-          value="5%"
-          description="processing"
+          label="Charge"
+          value="10%"
+          description="withdraw fee"
           icon={HiCurrencyDollar}
           variant="amber"
         />
         <NeonStatCard
-          label="Minimum"
-          value="$15"
-          description="withdraw"
-          icon={SiTether as any}
-          variant="teal"
+          label="Processing"
+          value={requestType === "binance" ? "24h" : "72h"}
+          description="maximum time"
+          icon={HiBanknotes}
+          variant="blue"
         />
+      </section>
+
+      {/* ────────── Selected Payment Method ────────── */}
+      <section className="adnexa-glass-card rounded-[28px] p-4">
+        <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">
+          Payment Method
+        </p>
+        {selectedMethod ? (
+          <div className="mt-3">
+            <h3 className="text-xl font-black text-white">
+              {selectedMethod.methodName}
+            </h3>
+            <p className="mt-1 break-all text-sm font-bold text-slate-300">
+              {selectedMethod.methodCategory === "binance"
+                ? selectedMethod.walletAddress
+                : selectedMethod.accountNumber}
+            </p>
+            <p className="mt-1 text-xs font-black text-cyan-300">
+              Network: {selectedMethod.network}
+            </p>
+          </div>
+        ) : (
+          <p className="mt-3 text-sm font-black text-red-300">
+            Please add this withdrawal method first.
+          </p>
+        )}
       </section>
 
       {/* ────────── Withdraw Form ────────── */}
       <section className="space-y-4">
         <SectionTitle subtitle="Request Form" title="Withdrawal Details" />
         <div className="adnexa-glass-card space-y-5 rounded-[28px] p-4">
-          {/* ────────── Wallet Address Input ────────── */}
           <div>
             <label className="mb-3 block text-sm font-black text-slate-200">
-              TRC20 Address
+              Select Fixed Amount
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              {fixedAmounts.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setAmount(item)}
+                  className={`rounded-2xl border px-3 py-4 text-sm font-black transition ${amount === item ? "border-cyan-300/60 bg-cyan-300/15 text-cyan-100" : "border-white/10 bg-white/5 text-slate-300"}`}
+                >
+                  BDT {item.toLocaleString()}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="mb-3 block text-sm font-black text-slate-200">
+              Login Password
             </label>
             <div className="adnexa-input-wrap">
               <span className="adnexa-input-icon text-cyan-300">
-                <HiMapPin className="text-2xl" />
+                <HiKey className="text-2xl" />
               </span>
               <input
                 className="adnexa-input"
-                type="text"
-                placeholder="Enter your TRC20 address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                type="password"
+                placeholder="Enter login password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-          </div>
-
-          {/* ────────── Network Input ────────── */}
-          <div>
-            <label className="mb-3 block text-sm font-black text-slate-200">
-              Network
-            </label>
-            <div className="adnexa-input-wrap">
-              <span className="adnexa-input-icon text-emerald-300">
-                <SiTether className="text-2xl" />
-              </span>
-              <input
-                className="adnexa-input"
-                type="text"
-                readOnly
-                value="Tron (TRC20)"
-              />
-            </div>
-          </div>
-
-          {/* ────────── Amount Input ────────── */}
-          <div>
-            <label className="mb-3 block text-sm font-black text-slate-200">
-              Amount
-            </label>
-            <div className="adnexa-input-wrap">
-              <span className="adnexa-input-icon text-violet-300">
-                <HiCurrencyDollar className="text-2xl" />
-              </span>
-              <input
-                className="adnexa-input"
-                type="number"
-                placeholder="Enter amount to withdraw"
-                value={amount}
-                onChange={handleAmountChange}
-              />
-            </div>
-            <div className="mt-3 flex items-center justify-between text-xs font-bold text-slate-400">
-              <span>
-                Available:{" "}
-                <b className="text-white">
-                  {Number(availableAmount || 0).toFixed(2)}
-                </b>{" "}
-                USDT
-              </span>
-              <span>
-                Min: <b className="text-white">15</b> USDT
-              </span>
-            </div>
-            {errorText && (
-              <p className="mt-2 text-sm font-black text-red-300">
-                {errorText}
-              </p>
-            )}
           </div>
         </div>
       </section>
@@ -238,40 +202,34 @@ const TetherUsdt = () => {
               You will receive
             </p>
             <h3 className="mt-1 text-3xl font-black text-emerald-300">
-              {receiveAmount.toFixed(2)} USDT
+              BDT {receiveAmount.toLocaleString()}
             </h3>
             <p className="mt-1 text-sm font-bold text-slate-500">
-              After 5% processing fee
+              Charge: BDT {charge.toLocaleString()}
             </p>
           </div>
           <HiShieldCheck className="text-4xl text-cyan-300" />
         </div>
+        {insufficientBalance && (
+          <p className="mt-3 text-sm font-black text-red-300">
+            Insufficient balance for this amount.
+          </p>
+        )}
       </section>
 
-      {/* ────────── Submit Button ────────── */}
+      {/* ────────── Submit & Support ────────── */}
       <button
         type="button"
-        onClick={() => setOpenModal(true)}
+        onClick={handleSubmit}
         disabled={submitDisabled}
         className="adnexa-primary-button"
       >
         {isLoading ? <RingLoader color="#fff" size={28} /> : "Submit Withdraw"}
         {!isLoading && <HiArrowRight className="text-2xl" />}
       </button>
-      {user?.is_block && (
-        <p className="rounded-[20px] border border-red-400/20 bg-red-400/10 p-4 text-sm font-black text-red-300">
-          Your account is blocked.
-        </p>
-      )}
-
-      {/* ────────── Security Confirm Modal ────────── */}
-      <WithdrawSecurity
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        handleSubmit={handleSubmit}
-      />
+      <WhatsAppSupportButton />
     </div>
   );
 };
 
-export default TetherUsdt;
+export default WithdrawRequestPage;

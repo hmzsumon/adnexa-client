@@ -1,5 +1,6 @@
 import PageHeader from "@/components/MobileApp/PageHeader";
 import SectionTitle from "@/components/MobileApp/SectionTitle";
+import WhatsAppSupportButton from "@/components/Support/WhatsAppSupportButton";
 import {
   HiChatBubbleBottomCenterText,
   HiEnvelope,
@@ -38,10 +39,10 @@ const Contact = () => {
             <p className="text-sm font-black uppercase tracking-[0.2em] text-cyan-300/90">
               Help Center
             </p>
-            <h2 className="mt-2 text-4xl font-black tracking-tight">
+            <h2 className="mt-2 text-xl font-black tracking-tight">
               Need Help?
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <p className="mt-2 text-xs leading-6 text-slate-400">
               Contact our support team for account, payment, and investment
               related issues.
             </p>
@@ -78,6 +79,9 @@ const Contact = () => {
           );
         })}
       </section>
+
+      {/* ────────── WhatsApp Support ────────── */}
+      <WhatsAppSupportButton />
 
       {/* ────────── Support Note ────────── */}
       <section className="adnexa-glass-card flex items-center gap-3 rounded-[24px] p-4">

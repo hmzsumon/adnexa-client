@@ -1,5 +1,7 @@
 "use client";
 
+import WhatsAppSupportButton from "@/components/Support/WhatsAppSupportButton";
+
 import MethodCard from "@/components/MobileApp/MethodCard";
 import NeonStatCard from "@/components/MobileApp/NeonStatCard";
 import PageHeader from "@/components/MobileApp/PageHeader";
@@ -283,6 +285,8 @@ const Deposit = () => {
           </p>
         </div>
       </section>
+      {/* ────────── WhatsApp Support ────────── */}
+      <WhatsAppSupportButton />
     </div>
   );
 };
