@@ -1,7 +1,6 @@
 "use client";
 
 import EmptyState from "@/components/MobileApp/EmptyState";
-import NeonStatCard from "@/components/MobileApp/NeonStatCard";
 import PageHeader from "@/components/MobileApp/PageHeader";
 import { useLoadUserQuery } from "@/redux/features/auth/authApi";
 import {
@@ -14,8 +13,6 @@ import {
   HiArrowPath,
   HiCheckBadge,
   HiCheckCircle,
-  HiClock,
-  HiCurrencyDollar,
   HiEye,
   HiSparkles,
 } from "react-icons/hi2";
@@ -23,7 +20,7 @@ import { useSelector } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import { toast } from "react-toastify";
 
-const WAIT_SECONDS = 5;
+const WAIT_SECONDS = 15;
 const LOCAL_FALLBACK_POOL = [
   "/fallback/task1.jpg",
   "/fallback/task2.jpg",
@@ -242,29 +239,34 @@ export default function MyTasksPage() {
         </div>
       </section>
 
-      {/* ────────── Task Summary Cards ────────── */}
-      <section className="grid grid-cols-1 gap-3">
-        <NeonStatCard
-          label="Balance"
-          value={`BDT ${Number(user?.m_balance || 0).toFixed(2)}`}
-          description="BDT"
-          icon={HiCurrencyDollar}
-          variant="green"
-        />
-        <NeonStatCard
-          label="Done"
-          value={completedCount}
-          description={`of ${total || 0}`}
-          icon={HiCheckCircle}
-          variant="teal"
-        />
-        <NeonStatCard
-          label="Pending"
-          value={pending}
-          description="remaining"
-          icon={HiClock}
-          variant="violet"
-        />
+      {/* ────────── Task Summary Card ────────── */}
+      <section className="rounded-2xl border border-white/10 bg-white/[.045] p-4 shadow-[0_0_35px_rgba(34,211,238,.08)]">
+        <div className="grid grid-cols-3 gap-2 text-xs">
+          <div className="text-center">
+            <p className="font-bold uppercase tracking-wider text-slate-400">
+              Balance
+            </p>
+            <p className="mt-1 text-sm font-black text-emerald-300">
+              BDT {Number(user?.m_balance || 0).toFixed(2)}
+            </p>
+          </div>
+
+          <div className="border-x border-white/10 text-center">
+            <p className="font-bold uppercase tracking-wider text-slate-400">
+              Done
+            </p>
+            <p className="mt-1 text-sm font-black text-cyan-300">
+              {completedCount}/{total || 0}
+            </p>
+          </div>
+
+          <div className="text-center">
+            <p className="font-bold uppercase tracking-wider text-slate-400">
+              Pending
+            </p>
+            <p className="mt-1 text-sm font-black text-violet-300">{pending}</p>
+          </div>
+        </div>
       </section>
 
       {/* ────────── API Message ────────── */}

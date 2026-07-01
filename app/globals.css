@@ -654,7 +654,7 @@ body .analyst ul::-webkit-scrollbar-thumb {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  border-radius: 22px;
+  border-radius: 16px;
   background: linear-gradient(90deg, #6d28d9 0%, #2563eb 45%, #14b8a6 100%);
   padding: 0 16px 0 28px;
   font-size: 18px;
@@ -666,6 +666,10 @@ body .analyst ul::-webkit-scrollbar-thumb {
   transition:
     transform 0.25s ease,
     opacity 0.25s ease;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
 }
 .adnexa-primary-button:hover {
   transform: translateY(-1px);

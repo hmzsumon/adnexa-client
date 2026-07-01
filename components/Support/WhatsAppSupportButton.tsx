@@ -1,6 +1,6 @@
 import { HiChatBubbleLeftRight } from "react-icons/hi2";
 
-const SUPPORT_URL = "https://wa.me/qr/CKZ2MDCBHQ2FP1";
+const SUPPORT_URL = "https://wa.me/qr/63NTJDPRTS72N1";
 
 /* ────────── WhatsApp Support Button ────────── */
 const WhatsAppSupportButton = ({ compact = false }: { compact?: boolean }) => {

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   HiArrowDownTray,
   HiArrowUpTray,
-  HiClock,
+  HiCheckBadge,
   HiCube,
   HiHome,
 } from "react-icons/hi2";
@@ -15,7 +15,7 @@ const navItems = [
   { label: "Deposit", href: "/deposit", icon: HiArrowDownTray },
   { label: "Withdraw", href: "/withdraw", icon: HiArrowUpTray },
   { label: "Packages", href: "/investment", icon: HiCube },
-  { label: "History", href: "/transactions", icon: HiClock },
+  { label: "My Task", href: "/tasks/my-tasks", icon: HiCheckBadge },
 ];
 
 const MobileBottomNav = () => {

@@ -13,8 +13,6 @@ import {
   useLoadUserQuery,
   useMyWalletQuery,
 } from "@/redux/features/auth/authApi";
-import { FaRegCreditCard } from "react-icons/fa";
-import { FcMoneyTransfer } from "react-icons/fc";
 import { GoHistory } from "react-icons/go";
 import {
   HiBanknotes,
@@ -24,14 +22,7 @@ import {
   HiSparkles,
   HiWallet,
 } from "react-icons/hi2";
-import { IoLogoUsd } from "react-icons/io5";
 import { SiTether } from "react-icons/si";
-import {
-  TbBrandNetflix,
-  TbBrandTether,
-  TbCircleLetterS,
-  TbLetterS,
-} from "react-icons/tb";
 import { useSelector } from "react-redux";
 
 const depositMethods = [
@@ -65,7 +56,7 @@ const depositMethods = [
   {
     id: 3,
     title: "Tether TRC20",
-    isActive: true,
+    isActive: false,
     processingTime: "Instant - 1 hour",
     fee: "0%",
     limit: "10 - 10,000,000 BDT",
@@ -73,102 +64,6 @@ const depositMethods = [
     img: null,
     link: "/deposit/tether-trc20",
     accent: "teal" as const,
-  },
-  {
-    id: 20,
-    title: "Tron TRX",
-    isActive: false,
-    processingTime: "Instant - 30 min",
-    fee: "0%",
-    limit: "10 - 10,000,000 BDT",
-    icon: null,
-    img: "/assets/icons/tron-trx.webp",
-    link: "/deposit/tron-trx",
-    accent: "pink" as const,
-  },
-  {
-    id: 3,
-    title: "Bank Card",
-    isActive: false,
-    processingTime: "Instant - 30 min",
-    fee: "0%",
-    limit: "10 - 10,000 BDT",
-    icon: <FaRegCreditCard />,
-    img: null,
-    link: "/deposit/bank-card",
-    accent: "blue" as const,
-  },
-  {
-    id: 4,
-    title: "Neteller",
-    isActive: false,
-    processingTime: "Instant - 30 min",
-    fee: "0%",
-    limit: "10 - 50,000 BDT",
-    icon: <TbBrandNetflix />,
-    img: null,
-    link: "/deposit/neteller",
-    accent: "violet" as const,
-  },
-  {
-    id: 5,
-    title: "Perfect Money",
-    isActive: false,
-    processingTime: "Instant - 30 min",
-    fee: "0%",
-    limit: "10 - 100,000 BDT",
-    icon: <FcMoneyTransfer />,
-    img: null,
-    link: "/deposit/perfect-money",
-    accent: "amber" as const,
-  },
-  {
-    id: 6,
-    title: "Skrill",
-    isActive: false,
-    processingTime: "Instant - 30 min",
-    fee: "0%",
-    limit: "10 - 100,000 BDT",
-    icon: <TbLetterS />,
-    img: null,
-    link: "/deposit/skrill",
-    accent: "blue" as const,
-  },
-  {
-    id: 7,
-    title: "SticPay",
-    isActive: false,
-    processingTime: "Instant - 30 min",
-    fee: "0%",
-    limit: "10 - 100,000 BDT",
-    icon: <TbCircleLetterS />,
-    img: null,
-    link: "/deposit/sticpay",
-    accent: "pink" as const,
-  },
-  {
-    id: 8,
-    title: "Tether ERC20",
-    isActive: false,
-    processingTime: "Instant - 1 hour",
-    fee: "0%",
-    limit: "10 - 100,000,000 BDT",
-    icon: <TbBrandTether />,
-    img: null,
-    link: "/deposit/tether-erc20",
-    accent: "teal" as const,
-  },
-  {
-    id: 9,
-    title: "USD Coin",
-    isActive: false,
-    processingTime: "Instant - 1 hour",
-    fee: "0%",
-    limit: "10 - 100,000,000 BDT",
-    icon: <IoLogoUsd />,
-    img: null,
-    link: "/deposit/usd-coin",
-    accent: "blue" as const,
   },
 ];
 

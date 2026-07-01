@@ -1,9 +1,9 @@
 "use client";
 
-import NeonStatCard from "@/components/MobileApp/NeonStatCard";
 import PageHeader from "@/components/MobileApp/PageHeader";
 import SectionTitle from "@/components/MobileApp/SectionTitle";
 import WhatsAppSupportButton from "@/components/Support/WhatsAppSupportButton";
+import { formatBalance } from "@/lib/functions";
 import {
   useCreateWithdrawRequestMutation,
   useGetMyWithdrawPaymentMethodsQuery,
@@ -14,11 +14,8 @@ import { useEffect, useMemo, useState } from "react";
 import {
   HiArrowRight,
   HiArrowUpTray,
-  HiBanknotes,
-  HiCurrencyDollar,
   HiKey,
   HiShieldCheck,
-  HiWallet,
 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
@@ -102,33 +99,35 @@ const WithdrawRequestPage = () => {
         </div>
       </section>
 
-      {/* ────────── Withdraw Summary Cards ────────── */}
-      <section className="grid grid-cols-1 gap-3">
-        <NeonStatCard
-          label="Available"
-          value={`BDT ${Number(user?.m_balance || 0).toLocaleString()}`}
-          description="Main balance"
-          icon={HiWallet}
-          variant="green"
-        />
-        <NeonStatCard
-          label="Charge"
-          value="10%"
-          description="withdraw fee"
-          icon={HiCurrencyDollar}
-          variant="amber"
-        />
-        <NeonStatCard
-          label="Processing"
-          value={requestType === "binance" ? "24h" : "72h"}
-          description="maximum time"
-          icon={HiBanknotes}
-          variant="blue"
-        />
+      {/* ────────── Withdrawal Summary Card ────────── */}
+      <section className="rounded-2xl border border-white/10 bg-white/5 p-4">
+        <div className="grid grid-cols-3 gap-3 text-xs">
+          <div className="text-center">
+            <p className="text-slate-400 uppercase tracking-wider">Available</p>
+
+            <p className="mt-1 text-base font-black text-emerald-400">
+              BDT {formatBalance(user?.m_balance || 0)}
+            </p>
+          </div>
+
+          <div className="border-x border-white/10 text-center">
+            <p className="text-slate-400 uppercase tracking-wider">Charge</p>
+
+            <p className="mt-1 text-base font-black text-amber-400">10%</p>
+          </div>
+
+          <div className="text-center">
+            <p className="text-slate-400 uppercase tracking-wider">
+              Processing
+            </p>
+
+            <p className="mt-1 text-base font-black text-cyan-400">72h</p>
+          </div>
+        </div>
       </section>
 
       {/* ────────── Selected Payment Method ────────── */}
-      <section className="adnexa-glass-card rounded-[28px] p-4">
+      <section className="adnexa-glass-card rounded-2xl p-4">
         <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">
           Payment Method
         </p>
@@ -156,7 +155,7 @@ const WithdrawRequestPage = () => {
       {/* ────────── Withdraw Form ────────── */}
       <section className="space-y-4">
         <SectionTitle subtitle="Request Form" title="Withdrawal Details" />
-        <div className="adnexa-glass-card space-y-5 rounded-[28px] p-4">
+        <div className="adnexa-glass-card space-y-5 rounded-2xl p-4">
           <div>
             <label className="mb-3 block text-sm font-black text-slate-200">
               Select Fixed Amount
@@ -195,16 +194,16 @@ const WithdrawRequestPage = () => {
       </section>
 
       {/* ────────── Receive Amount Preview ────────── */}
-      <section className="adnexa-glass-card rounded-[28px] p-4">
+      <section className="adnexa-glass-card rounded-2xl p-4">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">
               You will receive
             </p>
-            <h3 className="mt-1 text-3xl font-black text-emerald-300">
+            <h3 className="mt-1 text-xl font-black text-emerald-300">
               BDT {receiveAmount.toLocaleString()}
             </h3>
-            <p className="mt-1 text-sm font-bold text-slate-500">
+            <p className="mt-1 text-xs font-bold text-slate-500">
               Charge: BDT {charge.toLocaleString()}
             </p>
           </div>

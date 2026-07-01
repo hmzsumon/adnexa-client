@@ -21,10 +21,23 @@ const WithdrawPaymentMethodForm = ({
   const [accountNumber, setAccountNumber] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
 
+  /* ────────── Mobile Number Normalize Section ────────── */
+  const normalizeMobileNumber = (value: string) => {
+    const digits = value.replace(/\D/g, "");
+    return digits.startsWith("88") && digits.length === 13
+      ? digits.slice(2)
+      : digits;
+  };
+
   /* ────────── Submit Method ────────── */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    createMethod({ methodName, accountNumber, walletAddress });
+
+    createMethod({
+      methodName,
+      accountNumber: normalizeMobileNumber(accountNumber),
+      walletAddress,
+    });
   };
 
   /* ────────── API Response ────────── */
@@ -78,9 +91,11 @@ const WithdrawPaymentMethodForm = ({
           </select>
           <input
             className="adnexa-input"
-            placeholder="Registered mobile number"
+            placeholder="Bkash/Nagad number without +88, e.g. 01757454532"
             value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
+            onChange={(e) =>
+              setAccountNumber(normalizeMobileNumber(e.target.value))
+            }
           />
         </>
       ) : (

@@ -160,6 +160,13 @@ const Dashboard = () => {
             icon={HiHeart}
             variant="purple"
           />
+          <MetricCard
+            title="Generation Earn"
+            value={`BDT ${formatBalance(dashboardData?.total_generation_earning || dashboardData?.generation_earning || 0)}`}
+            trend="ROI"
+            icon={HiArrowTrendingUp}
+            variant="green"
+          />
         </div>
       </section>
 
