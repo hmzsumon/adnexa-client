@@ -1,5 +1,6 @@
 "use client";
 
+import InstallAppButton from "@/components/Install/InstallAppButton";
 import AppBrand from "@/components/MobileApp/AppBrand";
 import { useLoginUserMutation } from "@/redux/features/auth/authApi";
 import { fetchBaseQueryError } from "@/redux/services/helpers";
@@ -72,8 +73,11 @@ const Login = () => {
           </div>
         </div>
 
+        {/* ────────── Android App Install CTA ────────── */}
+        <InstallAppButton />
+
         {/* ────────── Login Form ────────── */}
-        <form className="relative z-10 mt-8 space-y-5" onSubmit={handleLogin}>
+        <form className="relative z-10 mt-6 space-y-5" onSubmit={handleLogin}>
           {/* ────────── Mobile Login Input Section ────────── */}
           <div>
             <label className="mb-2 block text-sm font-bold text-slate-300">

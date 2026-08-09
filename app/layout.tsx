@@ -1,3 +1,4 @@
+import AndroidInstallPrompt from "@/components/Install/AndroidInstallPrompt";
 import type { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -5,6 +6,7 @@ import "./globals.css";
 import StoreProvider from "./StoreProvider";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.adnexa.art"),
   title: "Adnexa",
   description: "Adnexa is a smart investment and earning platform.",
   manifest: "/manifest.webmanifest",
@@ -39,6 +41,7 @@ export default function RootLayout({
           position="bottom-center"
           theme="colored"
         />
+        <AndroidInstallPrompt />
 
         {/* ────────── Live Chat Script ────────── */}
         {/* <script
