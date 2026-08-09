@@ -7,6 +7,22 @@ import StoreProvider from "./StoreProvider";
 export const metadata: Metadata = {
   title: "Adnexa",
   description: "Adnexa is a smart investment and earning platform.",
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      {
+        url: "/icons/icon-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: "/icons/icon-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({
