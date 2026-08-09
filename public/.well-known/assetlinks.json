@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "art.adnexa.app",
+      "sha256_cert_fingerprints": [
+        "79:22:7E:CB:D0:CC:2D:0A:81:95:FB:F5:BB:20:10:B6:6D:53:A3:EE:1C:C9:AF:E3:E6:6E:FF:BD:56:3D:04:69"
+      ]
+    }
+  }
+]
