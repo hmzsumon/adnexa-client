@@ -1,3 +1,4 @@
+// adnexa-client-master/redux/features/tasks/tasksApi.ts
 import { apiSlice } from "../api/apiSlice";
 
 export const tasksApi = apiSlice.injectEndpoints({
@@ -9,6 +10,7 @@ export const tasksApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["Task"],
     }),
+
     createTask: builder.mutation({
       query: (body) => ({
         url: "/tasks",
@@ -17,9 +19,33 @@ export const tasksApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Task"],
     }),
-    completeTask: builder.mutation<any, { taskId: string }>({
+
+    // ────────── Start Video Watch Session ──────────
+    // ইউজার play চাপলেই কল হয়। সার্ভার watchToken + requiredSeconds পাঠায়।
+    startTaskWatch: builder.mutation<
+      {
+        success: boolean;
+        watchToken: string;
+        requiredSeconds: number;
+        serverTime: number;
+        reward: number;
+      },
+      { taskId: string }
+    >({
       query: (body) => ({
-        url: "/complete-task", // ✅ MUST start with '/'
+        url: "/start-task-watch",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    // ────────── Complete Task (watch verified) ──────────
+    completeTask: builder.mutation<
+      any,
+      { taskId: string; watchToken?: string; watchedSeconds?: number }
+    >({
+      query: (body) => ({
+        url: "/complete-task",
         method: "PUT",
         body,
       }),
@@ -39,6 +65,7 @@ export const tasksApi = apiSlice.injectEndpoints({
 
 export const {
   useGetMyTasksQuery,
+  useStartTaskWatchMutation,
   useCompleteTaskMutation,
   useGetTasksReportQuery,
 } = tasksApi;

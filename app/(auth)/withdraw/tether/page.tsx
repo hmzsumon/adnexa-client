@@ -3,7 +3,9 @@
 import PageHeader from "@/components/MobileApp/PageHeader";
 import SectionTitle from "@/components/MobileApp/SectionTitle";
 import WhatsAppSupportButton from "@/components/Support/WhatsAppSupportButton";
+import WithdrawDisabledModal from "@/components/Withdraw/WithdrawDisabledModal";
 import { formatBalance } from "@/lib/functions";
+import { useGetWithdrawStatusQuery } from "@/redux/features/company/companyApi";
 import {
   useCreateWithdrawRequestMutation,
   useGetMyWithdrawPaymentMethodsQuery,
@@ -28,6 +30,8 @@ const WithdrawRequestPage = () => {
   const searchParams = useSearchParams();
   const requestType = searchParams.get("type") || "mobile";
   const { user } = useSelector((state: any) => state.auth);
+  const { data: statusData } = useGetWithdrawStatusQuery(undefined);
+  const isWithdrawOff = statusData?.is_withdraw === false;
   const { data: methodData } = useGetMyWithdrawPaymentMethodsQuery(undefined);
   const [withdraw, { isLoading, isSuccess, isError, error }] =
     useCreateWithdrawRequestMutation();
@@ -66,10 +70,17 @@ const WithdrawRequestPage = () => {
   }, [isSuccess, isError, error, router]);
 
   const submitDisabled =
-    !selectedMethod || !password || insufficientBalance || isLoading;
+    !selectedMethod ||
+    !password ||
+    insufficientBalance ||
+    isLoading ||
+    isWithdrawOff;
 
   return (
     <div className="space-y-6 text-white">
+      {/* ────────── Withdraw Paused Notice ────────── */}
+      <WithdrawDisabledModal />
+
       {/* ────────── Page Header ────────── */}
       <PageHeader
         title="Withdraw Request"
@@ -223,8 +234,14 @@ const WithdrawRequestPage = () => {
         disabled={submitDisabled}
         className="adnexa-primary-button"
       >
-        {isLoading ? <RingLoader color="#fff" size={28} /> : "Submit Withdraw"}
-        {!isLoading && <HiArrowRight className="text-2xl" />}
+        {isLoading ? (
+          <RingLoader color="#fff" size={28} />
+        ) : isWithdrawOff ? (
+          "Withdrawals Paused"
+        ) : (
+          "Submit Withdraw"
+        )}
+        {!isLoading && !isWithdrawOff && <HiArrowRight className="text-2xl" />}
       </button>
       <WhatsAppSupportButton />
     </div>

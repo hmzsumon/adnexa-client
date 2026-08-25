@@ -1,4 +1,5 @@
 import AndroidInstallPrompt from "@/components/Install/AndroidInstallPrompt";
+import MaintenanceGate from "@/components/Maintenance/MaintenanceGate";
 import type { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,7 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans" suppressHydrationWarning={true}>
-        <StoreProvider>{children}</StoreProvider>
+        <StoreProvider>
+          <MaintenanceGate>{children}</MaintenanceGate>
+        </StoreProvider>
         <ToastContainer
           autoClose={2000}
           position="bottom-center"

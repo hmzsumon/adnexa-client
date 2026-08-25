@@ -1,398 +1,309 @@
+// adnexa-client-master/app/(auth)/tasks/my-tasks/page.tsx
 "use client";
 
 import EmptyState from "@/components/MobileApp/EmptyState";
 import PageHeader from "@/components/MobileApp/PageHeader";
+import VideoTaskPlayer from "@/components/Tasks/VideoTaskPlayer";
 import { useLoadUserQuery } from "@/redux/features/auth/authApi";
 import {
   useCompleteTaskMutation,
   useGetMyTasksQuery,
+  useStartTaskWatchMutation,
 } from "@/redux/features/tasks/tasksApi";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   HiArrowPath,
-  HiCheckBadge,
   HiCheckCircle,
-  HiEye,
+  HiOutlineFilm,
   HiSparkles,
 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import { toast } from "react-toastify";
 
-const WAIT_SECONDS = 15;
-const LOCAL_FALLBACK_POOL = [
-  "/fallback/task1.jpg",
-  "/fallback/task2.jpg",
-  "/fallback/task3.jpg",
-];
-
-function getCandidateUrls(task: any) {
-  const list: string[] = [];
-  if (Array.isArray(task?.urls)) list.push(...task.urls);
-  if (Array.isArray(task?.images)) list.push(...task.images);
-  if (task?.url) list.push(task.url);
-  if (task?.image) list.push(task.image);
-  if (task?.img) list.push(task.img);
-  if (task?.photo) list.push(task.photo);
-  if (task?.thumbnail) list.push(task.thumbnail);
-  if (task?.icon) list.push(task.icon);
-
-  const cleaned = list
-    .filter(Boolean)
-    .map(String)
-    .filter((s) => s.trim().length > 0);
-  return Array.from(new Set(cleaned));
-}
+const CURRENCY = "BDT";
 
 export default function MyTasksPage() {
-  const router = useRouter();
-
-  // ────────── User & Task Data ──────────
+  /* ────────── User & Task Data ────────── */
   useLoadUserQuery();
   const { user } = useSelector((state: any) => state.auth);
+
   const { data, isLoading, isFetching, refetch } = useGetMyTasksQuery(
     undefined,
     { refetchOnMountOrArgChange: true },
   );
-  const [completeTask, { isLoading: completing }] = useCompleteTaskMutation();
+
+  const [startTaskWatch] = useStartTaskWatchMutation();
+  const [completeTask, { isLoading: claiming }] = useCompleteTaskMutation();
 
   const message = data?.message;
   const dailyTasks = data?.dailyTasks || null;
-  const tasks = Array.isArray(dailyTasks?.tasks) ? dailyTasks.tasks : [];
+  const tasks = useMemo(
+    () => (Array.isArray(dailyTasks?.tasks) ? dailyTasks.tasks : []),
+    [dailyTasks],
+  );
+
   const pendingTasks = useMemo(
     () => tasks.filter((t: any) => !t?.completed),
     [tasks],
   );
-  const completedCount = tasks.length - pendingTasks.length;
-  const total = tasks.length;
-  const pending = pendingTasks.length;
 
-  // ────────── Task Player State ──────────
+  const total = tasks.length;
+  const completedCount = total - pendingTasks.length;
+  const perTask = Number(dailyTasks?.tasks_value || 0);
+  const dailyReturn = Number(dailyTasks?.daily_return || 0);
+  const earnedToday = perTask * completedCount;
+  const completedProgress = total > 0 ? (completedCount / total) * 100 : 0;
+
+  /* ────────── Active Video Index ────────── */
   const [index, setIndex] = useState(0);
-  const [imgSrc, setImgSrc] = useState("");
-  const [srcIndex, setSrcIndex] = useState(0);
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(WAIT_SECONDS);
-  const [canSubmit, setCanSubmit] = useState(false);
-  const intervalRef = useRef<any>(null);
   const currentTask = pendingTasks[index] || null;
 
-  // ────────── Current Task Image Candidates ──────────
-  const candidates = useMemo(() => {
-    if (!currentTask) return [];
-    return getCandidateUrls(currentTask);
-  }, [currentTask]);
-
-  // ────────── Load Current Task Image ──────────
-  useEffect(() => {
-    if (!currentTask) {
-      setImgSrc("");
-      setSrcIndex(0);
-      setImgLoaded(false);
-      return;
-    }
-
-    setImgLoaded(false);
-    if (candidates.length > 0) {
-      const start = Math.floor(Math.random() * candidates.length);
-      setSrcIndex(start);
-      const url = candidates[start];
-      setImgSrc(`${url}${url.includes("?") ? "&" : "?"}v=${Date.now()}`);
-      return;
-    }
-
-    const fallback =
-      LOCAL_FALLBACK_POOL[
-        Math.floor(Math.random() * LOCAL_FALLBACK_POOL.length)
-      ];
-    setSrcIndex(0);
-    setImgSrc(fallback);
-  }, [currentTask, candidates]);
-
-  // ────────── Wait Timer After Image Load ──────────
-  useEffect(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    if (!currentTask) {
-      setTimeLeft(0);
-      setCanSubmit(false);
-      return;
-    }
-    if (!imgLoaded) {
-      setTimeLeft(WAIT_SECONDS);
-      setCanSubmit(false);
-      return;
-    }
-
-    setTimeLeft(WAIT_SECONDS);
-    setCanSubmit(false);
-    intervalRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(intervalRef.current);
-          setCanSubmit(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [currentTask, imgLoaded]);
-
-  // ────────── Preload Next Task Image ──────────
-  useEffect(() => {
-    const next = pendingTasks[index + 1];
-    if (!next) return;
-    const nextCandidates = getCandidateUrls(next);
-    const nextSrc =
-      nextCandidates[0] ||
-      LOCAL_FALLBACK_POOL[
-        Math.floor(Math.random() * LOCAL_FALLBACK_POOL.length)
-      ];
-    if (nextSrc) {
-      const img = new window.Image();
-      img.src = `${nextSrc}${nextSrc.includes("?") ? "&" : "?"}pre=1`;
-    }
-  }, [pendingTasks, index]);
-
-  // ────────── Image Fallback Handler ──────────
-  const handleImgError = () => {
-    setImgLoaded(false);
-    const nextIndex = srcIndex + 1;
-    if (candidates[nextIndex]) {
-      setSrcIndex(nextIndex);
-      const url = candidates[nextIndex];
-      setImgSrc(`${url}${url.includes("?") ? "&" : "?"}v=${Date.now()}`);
-      return;
-    }
-    const fallback =
-      LOCAL_FALLBACK_POOL[
-        Math.floor(Math.random() * LOCAL_FALLBACK_POOL.length)
-      ];
-    setImgSrc(fallback);
-  };
-
-  // ────────── Complete Task Handler ──────────
-  const onComplete = async () => {
-    try {
-      if (!currentTask) return;
-      const taskId = String(currentTask?._id || currentTask?.id || "").trim();
-      if (!taskId) {
-        toast.error("Task id missing");
-        return;
-      }
-      if (!canSubmit) return;
-
-      setCanSubmit(false);
-      await completeTask({ taskId }).unwrap();
-      toast.success("Task completed successfully");
-      await refetch();
-      setIndex((prev) => prev);
-      router.refresh?.();
-    } catch (e: any) {
-      toast.error(e?.data?.message || e?.message || "Failed to complete task");
-      if (imgLoaded && timeLeft === 0) setCanSubmit(true);
-    }
-  };
-
-  // ────────── Keep Index Safe ──────────
   useEffect(() => {
     if (index >= pendingTasks.length) setIndex(0);
   }, [pendingTasks.length, index]);
 
-  const waitProgress = imgLoaded
-    ? ((WAIT_SECONDS - timeLeft) / WAIT_SECONDS) * 100
-    : 0;
-  const completedProgress = total > 0 ? (completedCount / total) * 100 : 0;
+  /* ────────── Preload Next Video ────────── */
+  useEffect(() => {
+    const next = pendingTasks[index + 1];
+    const url = next?.video_url || next?.fallback_url;
+    if (!url || typeof document === "undefined") return;
+
+    const link = document.createElement("link");
+    link.rel = "prefetch";
+    link.as = "video";
+    link.href = url;
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, [pendingTasks, index]);
+
+  /* ────────── Start Watch Session ────────── */
+  const handleStart = useCallback(
+    async (taskId: string) => {
+      try {
+        const res: any = await startTaskWatch({ taskId }).unwrap();
+        return {
+          watchToken: res?.watchToken,
+          requiredSeconds: Number(res?.requiredSeconds || 0),
+        };
+      } catch (e: any) {
+        toast.error(e?.data?.message || "Could not start this ad");
+        return null;
+      }
+    },
+    [startTaskWatch],
+  );
+
+  /* ────────── Claim Reward ────────── */
+  const handleClaim = useCallback(
+    async (payload: {
+      taskId: string;
+      watchToken: string;
+      watchedSeconds: number;
+    }) => {
+      try {
+        await completeTask(payload).unwrap();
+        toast.success(`+${perTask.toFixed(4)} ${CURRENCY} credited`);
+        await refetch();
+        return true;
+      } catch (e: any) {
+        toast.error(e?.data?.message || e?.message || "Failed to claim reward");
+        return false;
+      }
+    },
+    [completeTask, perTask, refetch],
+  );
 
   return (
-    <div className="space-y-6 text-white">
+    <div className="space-y-5 pb-6 text-white">
       {/* ────────── Page Header ────────── */}
       <PageHeader
-        title="My Tasks"
-        subtitle="Complete daily tasks and earn rewards"
+        title="Watch & Earn"
+        subtitle="Watch sponsored videos, get paid per view"
         back
       />
 
-      {/* ────────── Task Hero Card ────────── */}
-      <section className="relative overflow-hidden rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/15 via-indigo-950/90 to-violet-950/50 p-5 shadow-[0_0_55px_rgba(34,211,238,.12)]">
-        <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-cyan-400/20 blur-2xl" />
-        <div className="relative z-10 flex items-start justify-between gap-4">
-          <div>
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-cyan-300/90">
-              Daily Earning
-            </p>
-            <h2 className="mt-2 text-2xl font-black tracking-tight">
-              Task Center
-            </h2>
-            <p className="mt-2 text-[0.6rem] leading-6 text-slate-400">
-              View each task for 5 seconds, then submit and collect your Adnexa
-              reward.
-            </p>
+      {/* ────────── Earning Hero ────────── */}
+      <section className="relative overflow-hidden rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/15 via-indigo-950/90 to-violet-950/60 p-5 shadow-[0_0_55px_rgba(34,211,238,.12)]">
+        <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-cyan-400/20 blur-3xl" />
+
+        <div className="relative z-10">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="flex items-center gap-1.5 text-[0.6rem] font-black uppercase tracking-[0.2em] text-cyan-300/90">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                Today&apos;s earning
+              </p>
+              <p className="mt-2 font-mono text-3xl font-black tracking-tight text-emerald-300">
+                {earnedToday.toFixed(4)}
+              </p>
+              <p className="mt-1 text-[0.65rem] font-semibold text-slate-400">
+                of {dailyReturn.toFixed(4)} {CURRENCY} available today
+              </p>
+            </div>
+
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-cyan-400/25 bg-cyan-400/12 text-cyan-300">
+              <HiOutlineFilm className="text-3xl" />
+            </div>
           </div>
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl border border-cyan-400/25 bg-cyan-400/12 text-cyan-300">
-            <HiCheckBadge className="text-4xl" />
+
+          {/* daily progress */}
+          <div className="mt-4">
+            <div className="mb-1.5 flex items-center justify-between text-[0.6rem] font-black uppercase tracking-widest text-slate-400">
+              <span>
+                {completedCount} / {total || 0} videos watched
+              </span>
+              <span>{Math.round(completedProgress)}%</span>
+            </div>
+            <div className="h-2.5 overflow-hidden rounded-full bg-white/[.08]">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-500 transition-all duration-500"
+                style={{ width: `${completedProgress}%` }}
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ────────── Task Summary Card ────────── */}
-      <section className="rounded-2xl border border-white/10 bg-white/[.045] p-4 shadow-[0_0_35px_rgba(34,211,238,.08)]">
-        <div className="grid grid-cols-3 gap-2 text-xs">
-          <div className="text-center">
-            <p className="font-bold uppercase tracking-wider text-slate-400">
-              Balance
-            </p>
-            <p className="mt-1 text-sm font-black text-emerald-300">
-              BDT {Number(user?.m_balance || 0).toFixed(2)}
-            </p>
-          </div>
-
-          <div className="border-x border-white/10 text-center">
-            <p className="font-bold uppercase tracking-wider text-slate-400">
-              Done
-            </p>
-            <p className="mt-1 text-sm font-black text-cyan-300">
-              {completedCount}/{total || 0}
-            </p>
-          </div>
-
-          <div className="text-center">
-            <p className="font-bold uppercase tracking-wider text-slate-400">
-              Pending
-            </p>
-            <p className="mt-1 text-sm font-black text-violet-300">{pending}</p>
-          </div>
+      {/* ────────── Wallet Strip ────────── */}
+      <section className="grid grid-cols-3 gap-2 rounded-2xl border border-white/10 bg-white/[.045] p-3 text-center">
+        <div>
+          <p className="text-[0.55rem] font-bold uppercase tracking-widest text-slate-400">
+            Balance
+          </p>
+          <p className="mt-1 font-mono text-sm font-black text-emerald-300">
+            {Number(user?.m_balance || 0).toFixed(2)}
+          </p>
+        </div>
+        <div className="border-x border-white/10">
+          <p className="text-[0.55rem] font-bold uppercase tracking-widest text-slate-400">
+            Per video
+          </p>
+          <p className="mt-1 font-mono text-sm font-black text-cyan-300">
+            {perTask.toFixed(4)}
+          </p>
+        </div>
+        <div>
+          <p className="text-[0.55rem] font-bold uppercase tracking-widest text-slate-400">
+            Remaining
+          </p>
+          <p className="mt-1 font-mono text-sm font-black text-violet-300">
+            {pendingTasks.length}
+          </p>
         </div>
       </section>
 
       {/* ────────── API Message ────────── */}
       {message && (
-        <div className="rounded-[22px] border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-200">
+        <div className="rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-200">
           {message}
         </div>
       )}
 
-      {/* ────────── Task Content ────────── */}
-      {isLoading || isFetching ? (
+      {/* ────────── Main Content ────────── */}
+      {isLoading ? (
         <div className="flex h-[45vh] items-center justify-center">
           <RingLoader color="#22d3ee" size={90} />
         </div>
       ) : !dailyTasks ? (
         <EmptyState
-          title="No task available"
-          subtitle="There are no daily tasks assigned for today. Please check again later."
+          title="No videos available"
+          subtitle="There are no sponsored videos assigned for today. Please check again later."
           icon={HiSparkles}
         />
       ) : !currentTask ? (
         <EmptyState
-          title="All tasks completed"
-          subtitle="Great work! You completed every task for today."
-          actionLabel="Refresh Tasks"
-          actionHref="/tasks/my-tasks"
+          title="All videos watched"
+          subtitle={`Great work! You earned ${earnedToday.toFixed(
+            4,
+          )} ${CURRENCY} today.`}
+          actionLabel="View report"
+          actionHref="/tasks/tasks-report"
           icon={HiCheckCircle}
         />
       ) : (
-        <section className="adnexa-glass-card overflow-hidden rounded-2xl">
-          {/* ────────── Task Image Preview ────────── */}
-          <div className="relative min-h-[260px] overflow-hidden bg-white/[.03]">
-            {imgSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={imgSrc}
-                alt="task"
-                className="h-[280px] w-full object-cover"
-                onLoad={() => setImgLoaded(true)}
-                onError={handleImgError}
-              />
-            ) : (
-              <div className="flex h-[280px] items-center justify-center text-sm font-bold text-slate-400">
-                Loading task image...
+        <>
+          <VideoTaskPlayer
+            key={String(currentTask?._id || currentTask?.id)}
+            task={currentTask}
+            reward={perTask}
+            currency={CURRENCY}
+            index={completedCount + 1}
+            total={total}
+            claiming={claiming}
+            onStart={handleStart}
+            onClaim={handleClaim}
+          />
+
+          {/* ────────── Up Next Playlist ────────── */}
+          {pendingTasks.length > 1 && (
+            <section className="space-y-2">
+              <p className="px-1 text-[0.6rem] font-black uppercase tracking-[0.2em] text-slate-400">
+                Up next
+              </p>
+              <div className="flex gap-3 overflow-x-auto pb-2">
+                {pendingTasks.map((t: any, i: number) => {
+                  const active = i === index;
+                  return (
+                    <button
+                      key={String(t?._id || t?.id || i)}
+                      type="button"
+                      onClick={() => setIndex(i)}
+                      className={`relative h-20 w-32 shrink-0 overflow-hidden rounded-xl border text-left transition-all ${
+                        active
+                          ? "border-cyan-400/60 ring-2 ring-cyan-400/30"
+                          : "border-white/10 opacity-65"
+                      }`}
+                    >
+                      {t?.thumbnail ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={t.thumbnail}
+                          alt={t?.title || "ad"}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <span className="flex h-full w-full items-center justify-center bg-white/[.05] text-slate-500">
+                          <HiOutlineFilm className="text-2xl" />
+                        </span>
+                      )}
+
+                      <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent px-2 pb-1 pt-4">
+                        <span className="block truncate text-[0.6rem] font-black text-white">
+                          {t?.title || "Sponsored"}
+                        </span>
+                      </span>
+
+                      {Number(t?.duration) > 0 && (
+                        <span className="absolute right-1.5 top-1.5 rounded-md bg-black/70 px-1.5 py-0.5 text-[0.55rem] font-black text-slate-200">
+                          {Math.round(Number(t.duration))}s
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
-            )}
-            <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
-              <span className="rounded-full border border-white/10 bg-black/55 px-4 py-2 text-xs font-black backdrop-blur-xl">
-                Task {completedCount + 1} / {total || 0}
-              </span>
-              <span
-                className={`rounded-full border px-4 py-2 text-xs font-black backdrop-blur-xl ${canSubmit ? "border-emerald-300/30 bg-emerald-400/15 text-emerald-200" : "border-white/10 bg-black/55 text-cyan-100"}`}
-              >
-                {canSubmit
-                  ? "Ready"
-                  : imgLoaded
-                    ? `Wait ${timeLeft}s`
-                    : "Loading"}
-              </span>
-            </div>
-          </div>
+            </section>
+          )}
 
-          {/* ────────── Task Action Panel ────────── */}
-          <div className="space-y-5 p-5">
-            <div>
-              <div className="mb-2 flex items-center justify-between text-xs font-black text-slate-400">
-                <span>Daily Progress</span>
-                <span>{Math.round(completedProgress)}%</span>
-              </div>
-              <div className="h-3 overflow-hidden rounded-full bg-white/[.06]">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500"
-                  style={{ width: `${completedProgress}%` }}
-                />
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={onComplete}
-              disabled={!canSubmit || completing}
-              className="relative min-h-[64px] w-full overflow-hidden rounded-[22px] border border-white/10 bg-white/[.06] text-lg font-black text-white disabled:cursor-not-allowed disabled:opacity-75"
-            >
-              {!canSubmit && (
-                <span
-                  className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500/40 to-violet-500/40 transition-all"
-                  style={{ width: `${waitProgress}%` }}
-                />
-              )}
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                {!canSubmit
-                  ? imgLoaded
-                    ? `Please wait ${timeLeft}s`
-                    : "Loading image..."
-                  : completing
-                    ? "Submitting..."
-                    : "Submit Task"}
-              </span>
-            </button>
-
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => refetch()}
-                className="rounded-[20px] border border-white/10 bg-white/[.045] px-4 py-3 text-sm font-black text-slate-200"
-              >
-                <HiArrowPath className="mr-1 inline text-cyan-300" /> Refresh
-              </button>
-              <button
-                type="button"
-                onClick={() =>
-                  setIndex((p) => (p + 1 < pendingTasks.length ? p + 1 : p))
-                }
-                disabled={pendingTasks.length <= 1}
-                className="rounded-[20px] border border-white/10 bg-white/[.045] px-4 py-3 text-sm font-black text-slate-200 disabled:opacity-50"
-              >
-                <HiEye className="mr-1 inline text-violet-300" /> Next
-              </button>
-            </div>
-
-            <p className="text-center text-xs leading-5 text-slate-500">
-              After viewing the image for 5 seconds, the submit button will
-              become active automatically.
-            </p>
-          </div>
-        </section>
+          {/* ────────── Refresh ────────── */}
+          <button
+            type="button"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="w-full rounded-2xl border border-white/10 bg-white/[.045] px-4 py-3 text-sm font-black text-slate-200 disabled:opacity-50"
+          >
+            <HiArrowPath
+              className={`mr-1.5 inline text-cyan-300 ${
+                isFetching ? "animate-spin" : ""
+              }`}
+            />
+            Refresh videos
+          </button>
+        </>
       )}
     </div>
   );

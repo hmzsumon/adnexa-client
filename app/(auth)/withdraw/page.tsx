@@ -5,6 +5,7 @@ import NeonStatCard from "@/components/MobileApp/NeonStatCard";
 import PageHeader from "@/components/MobileApp/PageHeader";
 import SectionTitle from "@/components/MobileApp/SectionTitle";
 import WhatsAppSupportButton from "@/components/Support/WhatsAppSupportButton";
+import WithdrawDisabledModal from "@/components/Withdraw/WithdrawDisabledModal";
 import WithdrawPaymentMethodForm from "@/components/Withdraw/WithdrawPaymentMethodForm";
 import { formatBalance } from "@/lib/functions";
 import { useMyWalletQuery } from "@/redux/features/auth/authApi";
@@ -63,6 +64,9 @@ const Withdraw = () => {
 
   return (
     <div className="space-y-6 text-white">
+      {/* ────────── Withdraw Paused Notice ────────── */}
+      <WithdrawDisabledModal />
+
       {/* ────────── Page Header ────────── */}
       <PageHeader
         title="Withdraw"
