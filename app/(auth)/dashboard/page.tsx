@@ -2,12 +2,12 @@
 
 import ActionTile from "@/components/MobileApp/ActionTile";
 import MetricCard from "@/components/MobileApp/MetricCard";
-import QuickLinkTile from "@/components/MobileApp/QuickLinkTile";
 import { formatBalance } from "@/lib/functions";
 import { useGetDashboardQuery } from "@/redux/features/auth/authApi";
 import Link from "next/link";
 import {
   HiArrowDownTray,
+  HiArrowPathRoundedSquare,
   HiArrowTrendingUp,
   HiArrowUpTray,
   HiCheckBadge,
@@ -15,7 +15,9 @@ import {
   HiClock,
   HiCube,
   HiGift,
+  HiGlobeAlt,
   HiHeart,
+  HiSparkles,
   HiTrophy,
   HiWallet,
 } from "react-icons/hi2";
@@ -96,27 +98,32 @@ const Dashboard = () => {
         </div>
       </section>
 
-      {/* ────────── Main Action Buttons ────────── */}
-      <section className="grid grid-cols-3 gap-3">
-        <ActionTile
-          label="Deposit"
-          href="/deposit"
-          icon={HiArrowDownTray}
-          variant="teal"
-        />
-        <ActionTile
-          label="Withdraw"
-          href="/withdraw"
-          icon={HiArrowUpTray}
-          variant="blue"
-        />
-
-        <ActionTile
-          label="Invest"
-          href="/investment"
-          icon={HiCube}
-          variant="pink"
-        />
+      {/* ────────── Quick Actions (all menu options) ────────── */}
+      <section className="adnexa-glass-card rounded-2xl p-4">
+        <h2 className="mb-4 text-xl font-black">Quick Actions</h2>
+        <div className="grid grid-cols-4 gap-x-2 gap-y-4">
+          {[
+            { label: "Deposit", href: "/deposit", icon: HiArrowDownTray, variant: "teal" },
+            { label: "Withdraw", href: "/withdraw", icon: HiArrowUpTray, variant: "blue" },
+            { label: "Invest", href: "/investment", icon: HiCube, variant: "pink" },
+            { label: "My Package", href: "/investment/my-package", icon: HiGift, variant: "amber" },
+            { label: "Lucky Card", href: "/lucky-cards", icon: HiSparkles, variant: "violet" },
+            { label: "History", href: "/transactions", icon: HiArrowPathRoundedSquare, variant: "blue" },
+            { label: "My Tasks", href: "/tasks/my-tasks", icon: HiCheckBadge, variant: "teal" },
+            { label: "Task Report", href: "/tasks/tasks-report", icon: HiClock, variant: "blue" },
+            { label: "Referral", href: "/partner-program", icon: HiHeart, variant: "amber" },
+            { label: "Generation", href: "/generation-program", icon: HiGlobeAlt, variant: "violet" },
+            { label: "Rank & Reward", href: "/rank-and-reward", icon: HiTrophy, variant: "amber" },
+          ].map((a) => (
+            <ActionTile
+              key={a.href}
+              label={a.label}
+              href={a.href}
+              icon={a.icon}
+              variant={a.variant as any}
+            />
+          ))}
+        </div>
       </section>
 
       {/* ────────── Overview Statistics ────────── */}
@@ -170,40 +177,6 @@ const Dashboard = () => {
         </div>
       </section>
 
-      {/* ────────── Quick Links ────────── */}
-      <section className="adnexa-glass-card rounded-2xl p-4">
-        <h2 className="mb-4 text-xl font-black">Quick Links</h2>
-        <div className="grid grid-cols-1 gap-3">
-          <QuickLinkTile
-            title="My Tasks"
-            subtitle="Complete & earn"
-            href="/tasks/my-tasks"
-            icon={HiCheckBadge}
-            variant="green"
-          />
-          <QuickLinkTile
-            title="Rank"
-            subtitle="Your level"
-            href="/rank-and-reward"
-            icon={HiTrophy}
-            variant="orange"
-          />
-          <QuickLinkTile
-            title="Rewards"
-            subtitle="Claim bonuses"
-            href="/rank-and-reward"
-            icon={HiGift}
-            variant="purple"
-          />
-          <QuickLinkTile
-            title="History"
-            subtitle="View activity"
-            href="/transactions"
-            icon={HiClock}
-            variant="blue"
-          />
-        </div>
-      </section>
     </div>
   );
 };

@@ -18,6 +18,7 @@ import {
   HiGlobeAlt,
   HiHeart,
   HiHome,
+  HiSparkles,
   HiTrophy,
   HiXMark,
 } from "react-icons/hi2";
@@ -78,6 +79,17 @@ const menuGroups = [
         href: "/investment/my-package",
         icon: HiGift,
         accent: "text-amber-300",
+      },
+    ],
+  },
+  {
+    title: "Lucky Card",
+    items: [
+      {
+        label: "Lucky Card",
+        href: "/lucky-cards",
+        icon: HiSparkles,
+        accent: "text-emerald-300",
       },
     ],
   },

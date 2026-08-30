@@ -27,16 +27,18 @@ const ActionTile = ({
   variant = "teal",
 }: ActionTileProps) => {
   return (
-    <Link href={href} className="group flex flex-col items-center gap-3">
+    <Link href={href} className="group flex flex-col items-center gap-2">
       {/* ────────── Action Icon Box ────────── */}
       <div
-        className={`flex h-[74px] w-[74px] items-center justify-center rounded-xl border shadow-xl transition-all duration-300 group-hover:-translate-y-1 ${variantClass[variant]}`}
+        className={`flex h-16 w-16 items-center justify-center rounded-2xl border shadow-lg transition-all duration-300 group-hover:-translate-y-1 group-active:scale-95 ${variantClass[variant]}`}
       >
-        <Icon className="text-4xl drop-shadow-[0_0_14px_currentColor]" />
+        <Icon className="text-3xl drop-shadow-[0_0_10px_currentColor]" />
       </div>
 
       {/* ────────── Action Label ────────── */}
-      <span className="text-sm font-semibold text-white">{label}</span>
+      <span className="min-h-[2.1em] text-center text-[11px] font-semibold leading-tight text-white [text-wrap:balance]">
+        {label}
+      </span>
     </Link>
   );
 };
