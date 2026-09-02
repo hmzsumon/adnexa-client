@@ -116,20 +116,34 @@ export default function LuckyCardsPage() {
                 </div>
 
                 <div className="grid grid-cols-3 gap-2">
-                  {t.packages.map((p: any) => (
-                    <button
-                      key={p._id}
-                      disabled={buyState.isLoading && busyPkg === p._id}
-                      onClick={() => handleBuy(p._id, p.price)}
-                      className="rounded-xl border border-white/10 bg-white/5 p-2 text-center transition hover:border-cyan-400 disabled:opacity-50"
-                    >
-                      <p className="text-lg font-black">{p.total_cards}</p>
-                      <p className="text-[10px] text-slate-400">cards</p>
-                      <p className="mt-1 text-xs font-semibold text-cyan-300">
-                        {busyPkg === p._id ? "…" : bdt(p.price)}
-                      </p>
-                    </button>
-                  ))}
+                  {t.packages.map((p: any) => {
+                    const hasOffer =
+                      Number(p.regular_price || 0) > Number(p.price || 0);
+                    return (
+                      <button
+                        key={p._id}
+                        disabled={buyState.isLoading && busyPkg === p._id}
+                        onClick={() => handleBuy(p._id, p.price)}
+                        className="relative rounded-xl border border-white/10 bg-white/5 p-2 text-center transition hover:border-cyan-400 disabled:opacity-50"
+                      >
+                        {hasOffer && (
+                          <span className="absolute -right-1 -top-2 rounded-full bg-rose-500 px-1.5 py-0.5 text-[9px] font-bold text-white">
+                            -{p.discount_percent}%
+                          </span>
+                        )}
+                        <p className="text-lg font-black">{p.total_cards}</p>
+                        <p className="text-[10px] text-slate-400">cards</p>
+                        {hasOffer && (
+                          <p className="text-[10px] font-medium text-slate-500 line-through">
+                            {bdt(p.regular_price)}
+                          </p>
+                        )}
+                        <p className="mt-0.5 text-xs font-semibold text-cyan-300">
+                          {busyPkg === p._id ? "…" : bdt(p.price)}
+                        </p>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             ))

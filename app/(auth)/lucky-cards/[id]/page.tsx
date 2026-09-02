@@ -94,6 +94,8 @@ export default function ScratchLuckyCardPage() {
   const win = !!result?.win;
   const amount = Number(result?.prize_amount || 0);
   const symbol = result?.reveal_symbol || "🪙";
+  const prizeCode = result?.prize_code || "";
+  const prizeLabel = result?.prize_label || "";
 
   return (
     <div className="flex flex-col items-center gap-5 pt-2 text-slate-200">
@@ -102,47 +104,62 @@ export default function ScratchLuckyCardPage() {
           {card.card_type}
         </p>
         <p className="text-xs text-slate-400">
-          Scratch with your finger to reveal the amount
+          আঙুল দিয়ে ঘষে প্রাইজ বের করুন
         </p>
       </div>
 
-      <ScratchCard
-        size={280}
-        accent={card.accent}
-        disabled={card.status === "opened"}
-        onFirstScratch={fetchResult}
-        onComplete={() => setModal(true)}
-      >
-        <div className="flex flex-col items-center justify-center gap-2 p-4 text-center">
-          <span className="text-5xl">{result ? (win ? symbol : "🙁") : "❔"}</span>
-          {result ? (
-            win ? (
-              <>
-                <span className="text-4xl font-black text-green-400 drop-shadow">
-                  {bdt(amount)}
+      <div className="w-full max-w-[340px]">
+        <ScratchCard
+          accent={card.accent}
+          disabled={card.status === "opened"}
+          onFirstScratch={fetchResult}
+          onComplete={() => setModal(true)}
+        >
+          <div className="flex flex-col items-center justify-center gap-2 p-4 text-center">
+            <span className="text-5xl">
+              {result ? (win ? symbol : "🙁") : "❔"}
+            </span>
+            {result ? (
+              win ? (
+                <>
+                  <span className="text-4xl font-black text-green-400 drop-shadow">
+                    {bdt(amount)}
+                  </span>
+                  <span className="text-xs text-slate-400">
+                    {prizeLabel || "You won"}
+                    {prizeCode ? ` · ${prizeCode}` : ""}
+                  </span>
+                </>
+              ) : (
+                <span className="text-lg font-bold text-slate-400">
+                  এইবার হয়নি
                 </span>
-                <span className="text-xs text-slate-400">You won</span>
-              </>
+              )
             ) : (
-              <span className="text-lg font-bold text-slate-400">No win</span>
-            )
-          ) : (
-            <span className="text-sm text-slate-500">Start scratching…</span>
-          )}
-        </div>
-      </ScratchCard>
+              <span className="text-sm text-slate-500">ঘষা শুরু করুন…</span>
+            )}
+          </div>
+        </ScratchCard>
+      </div>
 
       {card.status === "opened" && result && (
         <div className="w-full space-y-3">
           <div className="adnexa-glass-card rounded-2xl p-4 text-center">
             {win ? (
-              <p className="text-2xl font-black text-green-400">
-                You won {bdt(amount)} 🎉
-              </p>
+              <>
+                <p className="text-2xl font-black text-green-400">
+                  {bdt(amount)} 🎉
+                </p>
+                <p className="mt-0.5 text-xs font-semibold text-amber-300">
+                  {prizeLabel} {prizeCode ? `(${prizeCode})` : ""}
+                </p>
+              </>
             ) : (
-              <p className="text-sm text-slate-400">No win on this card</p>
+              <p className="text-sm text-slate-400">এই কার্ডে প্রাইজ আসেনি</p>
             )}
-            <p className="mt-1 text-[11px] text-slate-500">Added to your balance</p>
+            <p className="mt-1 text-[11px] text-slate-500">
+              ব্যালেন্সে যোগ হয়েছে
+            </p>
           </div>
 
           <div className="flex gap-2">
@@ -170,14 +187,21 @@ export default function ScratchLuckyCardPage() {
           <div className="w-full max-w-[320px] rounded-3xl border border-white/10 bg-[#0b0f24] p-6 text-center">
             <div className="mb-3 text-5xl">{win ? "🎉" : "🙂"}</div>
             <h3 className="text-lg font-bold">
-              {win ? "Congratulations!" : "Not this time"}
+              {win ? "অভিনন্দন!" : "এইবার হয়নি"}
             </h3>
             {win ? (
-              <p className="mt-1 text-3xl font-black text-green-400">
-                {bdt(amount)}
-              </p>
+              <>
+                <p className="mt-1 text-3xl font-black text-green-400">
+                  {bdt(amount)}
+                </p>
+                {prizeLabel && (
+                  <p className="mt-0.5 text-xs font-semibold text-amber-300">
+                    {prizeLabel} {prizeCode ? `(${prizeCode})` : ""}
+                  </p>
+                )}
+              </>
             ) : (
-              <p className="mt-1 text-sm text-slate-400">Try the next card</p>
+              <p className="mt-1 text-sm text-slate-400">পরের কার্ড ট্রাই করুন</p>
             )}
             <div className="mt-5 flex gap-2">
               <button
