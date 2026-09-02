@@ -204,7 +204,7 @@ export default function LuckyCardsPage() {
                       c.win ? "font-bold text-green-400" : "text-slate-500"
                     }
                   >
-                    {c.win ? `+ ${bdt(c.prize_amount)}` : "No win"}
+                    {c.win ? `+ ${bdt(c.prize_amount)}` : "গুড লাক 🍀"}
                   </span>
                 </div>
               ))}

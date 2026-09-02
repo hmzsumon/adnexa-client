@@ -96,6 +96,12 @@ export default function ScratchLuckyCardPage() {
   const symbol = result?.reveal_symbol || "🪙";
   const prizeCode = result?.prize_code || "";
   const prizeLabel = result?.prize_label || "";
+  // no-win: সার্ভারের বন্ধুসুলভ বার্তা; পুরোনো কার্ডে fallback
+  const noWinEmoji = symbol && symbol !== "🙁" ? symbol : "🍀";
+  const noWinText =
+    prizeLabel && prizeLabel !== "No win"
+      ? prizeLabel
+      : "গুড লাক! আবার চেষ্টা করুন";
 
   return (
     <div className="flex flex-col items-center gap-5 pt-2 text-slate-200">
@@ -117,7 +123,7 @@ export default function ScratchLuckyCardPage() {
         >
           <div className="flex flex-col items-center justify-center gap-2 p-4 text-center">
             <span className="text-5xl">
-              {result ? (win ? symbol : "🙁") : "❔"}
+              {result ? (win ? symbol : noWinEmoji) : "❔"}
             </span>
             {result ? (
               win ? (
@@ -131,8 +137,8 @@ export default function ScratchLuckyCardPage() {
                   </span>
                 </>
               ) : (
-                <span className="text-lg font-bold text-slate-400">
-                  এইবার হয়নি
+                <span className="px-3 text-center text-base font-bold text-slate-300">
+                  {noWinText}
                 </span>
               )
             ) : (
@@ -155,11 +161,15 @@ export default function ScratchLuckyCardPage() {
                 </p>
               </>
             ) : (
-              <p className="text-sm text-slate-400">এই কার্ডে প্রাইজ আসেনি</p>
+              <p className="text-base font-semibold text-slate-300">
+                {noWinEmoji} {noWinText}
+              </p>
             )}
-            <p className="mt-1 text-[11px] text-slate-500">
-              ব্যালেন্সে যোগ হয়েছে
-            </p>
+            {win && (
+              <p className="mt-1 text-[11px] text-slate-500">
+                ব্যালেন্সে যোগ হয়েছে
+              </p>
+            )}
           </div>
 
           <div className="flex gap-2">
@@ -185,9 +195,9 @@ export default function ScratchLuckyCardPage() {
       {modal && card.status === "opened" && result && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6">
           <div className="w-full max-w-[320px] rounded-3xl border border-white/10 bg-[#0b0f24] p-6 text-center">
-            <div className="mb-3 text-5xl">{win ? "🎉" : "🙂"}</div>
+            <div className="mb-3 text-5xl">{win ? "🎉" : noWinEmoji}</div>
             <h3 className="text-lg font-bold">
-              {win ? "অভিনন্দন!" : "এইবার হয়নি"}
+              {win ? "অভিনন্দন!" : "ধন্যবাদ!"}
             </h3>
             {win ? (
               <>
@@ -201,7 +211,9 @@ export default function ScratchLuckyCardPage() {
                 )}
               </>
             ) : (
-              <p className="mt-1 text-sm text-slate-400">পরের কার্ড ট্রাই করুন</p>
+              <p className="mt-1 text-sm font-semibold text-slate-300">
+                {noWinText}
+              </p>
             )}
             <div className="mt-5 flex gap-2">
               <button
